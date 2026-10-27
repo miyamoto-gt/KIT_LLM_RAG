@@ -1,0 +1,7 @@
+__pycache__/
+.ipynb_checkpoints/
+data/raw/
+data/index/
+data/chunks.jsonl
+answers*.json
+.DS_Store
