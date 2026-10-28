@@ -1,7 +1,7 @@
 """⑦ 生成：sarashina2.2-3b を読み込んで文章を作るだけの薄い部品。"""
 import torch
 
-from KIT_LLM_RAG.config import CFG
+from config import CFG
 
 
 class Generator:

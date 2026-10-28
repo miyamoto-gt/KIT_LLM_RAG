@@ -13,7 +13,7 @@ from urllib.parse import urldefrag, urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from KIT_LLM_RAG.config import CFG
+from config import CFG
 
 SKIP_EXT = (".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp", ".zip", ".mp4", ".mp3",
             ".xls", ".xlsx", ".doc", ".docx", ".ppt", ".pptx", ".css", ".js", ".ics")

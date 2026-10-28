@@ -5,9 +5,9 @@
 import re
 import sys
 
-from KIT_LLM_RAG.config import CFG
-from KIT_LLM_RAG.generator import Generator
-from KIT_LLM_RAG.index import Retriever
+from config import CFG
+from generator import Generator
+from index import Retriever
 from prompts import build_calc_answer_prompt, build_prompt
 from router import classify
 from tools import run_calc_tags

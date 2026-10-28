@@ -3,10 +3,10 @@
 検索APIは使わず、大学サイトのリンク構造（木）だけを使う。
 回答時にネット接続が許される場合のみ CFG.web_fallback = True にする。
 """
-from KIT_LLM_RAG.config import CFG
-from KIT_LLM_RAG.crawl import extract_links, fetch, make_session
-from KIT_LLM_RAG.index import char_bigrams
-from KIT_LLM_RAG.preprocess import document_to_chunks
+from config import CFG
+from crawl import extract_links, fetch, make_session
+from index import char_bigrams
+from preprocess import document_to_chunks
 
 
 def expand_from_hits(question: str, hits: list, known_urls: set) -> list:

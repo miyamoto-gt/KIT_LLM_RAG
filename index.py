@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-from KIT_LLM_RAG.config import CFG
+from config import CFG
 from schema import load_chunks, save_chunks
 
 

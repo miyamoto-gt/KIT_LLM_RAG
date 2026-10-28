@@ -6,7 +6,7 @@ import os
 
 from bs4 import BeautifulSoup
 
-from KIT_LLM_RAG.config import CFG
+from config import CFG
 from schema import Chunk, load_chunks, save_chunks
 
 BREADCRUMB_SEL = ('[class*="breadcrumb"], [id*="breadcrumb"], [class*="pankuzu"], '

@@ -11,7 +11,7 @@ import time
 
 import requests
 
-from KIT_LLM_RAG.pipeline import RAGPipeline
+from pipeline import RAGPipeline
 
 QUESTION_KEY = "question"   # TODO: 採点JSONのキー名に合わせる
 ID_KEY = "id"               # TODO
