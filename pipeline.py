@@ -16,12 +16,14 @@ STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）", "\n\n")
 
 
 def postprocess(text: str, qtype: str) -> str:
+    text = text.strip()                          # 先頭の改行を先に取り除く
     for m in STOP_MARKERS:                       # 次の質問を書き始める等の暴走を切る
         if m in text:
             text = text.split(m)[0]
     text = text.strip()
     if qtype in ("fact", "calc"):
-        text = text.splitlines()[0] if text else text
+        lines = [l for l in text.splitlines() if l.strip()]
+        text = lines[0] if lines else ""
         text = re.sub(r"^(回答|答え)[:：]\s*", "", text)
     return text.strip()
 
@@ -59,6 +61,7 @@ class RAGPipeline:
         return {
             "question": question,
             "answer": postprocess(raw, qtype),
+            "raw": raw, 
             "qtype": qtype,
             "sources": [c.source for c, _ in hits],
             "top_score": hits[0][1] if hits else None,

@@ -37,7 +37,35 @@ def html_to_text(html: str):
     return title, breadcrumb, body
 
 
+READABLE_EXTRA = set("・―‐…“”‘’「」『』【】〜")
+
+
+def is_readable(text: str, min_ratio: float = 0.85) -> bool:
+    """日本語・英数字として読める文字の割合で、文字化けしたテキストを判定する。
+
+    フォントに文字の対応表が無いPDFは、ギリシャ文字やアラビア文字のような記号に化けるので、
+    ひらがな・カタカナ・漢字・英数字・全角記号以外が多いものを除外する。
+    """
+    body = text.split("\n", 1)[-1] if text.startswith("【") else text
+    chars = [c for c in body if not c.isspace()]
+    if len(chars) < 20:
+        return len(chars) > 0
+    ok = sum(1 for c in chars if
+             "぀" <= c <= "ヿ" or "一" <= c <= "鿿" or "　" <= c <= "〿"
+             or "＀" <= c <= "￯" or " " <= c <= "~" or c in READABLE_EXTRA)
+    return ok / len(chars) >= min_ratio
+
+
 def pdf_to_text(data: bytes) -> str:
+    """PyMuPDF があれば優先（日本語PDFに強い）。無ければ pypdf。"""
+    try:
+        import fitz  # PyMuPDF
+        with fitz.open(stream=data, filetype="pdf") as doc:
+            text = "\n".join(page.get_text() for page in doc)
+        if is_readable(text):
+            return text
+    except Exception:
+        pass
     from pypdf import PdfReader
     reader = PdfReader(io.BytesIO(data))
     return "\n".join((p.extract_text() or "") for p in reader.pages)
@@ -64,6 +92,8 @@ def make_chunks(url: str, kind: str, title: str, breadcrumb: str, body: str) -> 
     header = f"【{title}】" + (f"（{breadcrumb}）" if breadcrumb else "")
     out = []
     for i, piece in enumerate(split_text(body, CFG.chunk_size, CFG.chunk_overlap)):
+        if not is_readable(piece):        # 文字化けしたチャンクは索引に入れない
+            continue
         cid = hashlib.md5(f"{url}#{i}".encode()).hexdigest()[:12]
         out.append(Chunk(id=cid, text=f"{header}\n{piece}", source=url,
                          title=title, breadcrumb=breadcrumb, type=kind))

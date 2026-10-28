@@ -3,9 +3,10 @@ beautifulsoup4
 trafilatura
 pypdf
 sentence-transformers>=3.0
-transformers>=4.48
+transformers>=4.48,<5
 accelerate
 faiss-cpu
 rank-bm25
 numpy
 torch
+sentencepiece
