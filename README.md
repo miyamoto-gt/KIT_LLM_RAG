@@ -2,24 +2,7 @@
 
 ## アーキテクチャ
 
-```
-━━━━━━━━━━ オフライン（事前に1回） ━━━━━━━━━━
-crawl.py       ① 収集      トップからリンクを幅優先でたどる（木構造を manifest に記録）
-preprocess.py  ②③ 前処理   本文抽出・表はMarkdown・PDF対応 → 500字前後のチャンク
-                             ＋ data/kit_campus_map.jsonl など手作りデータを合流
-index.py       ④ 索引      ruri-v3 で埋め込み → FAISS（＋BM25）
-
-━━━━━━━━━━ オンライン（質問ごと） ━━━━━━━━━━
-run_eval.py    ⑤ 質問JSONを読み込み、全問ループ
-pipeline.py      answer(question) が唯一の入口
-  router.py      振り分け   fact / calc / explain
-  index.py       検索       ベクトル＋BM25 を順位統合（RRF）
-  web_fallback.py  Web補完  類似度が低いとき、上位ヒットのページからリンクを1段たどって追加取得（任意）
-  prompts.py     プロンプト  質問タイプごとに出力指示を変える
-  generator.py   生成       sarashina2.2-3b
-  tools.py       計算       <calc>式</calc> を Python で安全に計算
-               ⑧ 後処理 → answers.json
-```
+https://github.com/miyamoto-gt/KIT_LLM_RAG/issues/1#issue-6081290940
 
 すべての情報源は `schema.Chunk`（id / text / source / title / breadcrumb / type）に揃える。
 
