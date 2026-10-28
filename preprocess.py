@@ -59,8 +59,11 @@ def is_readable(text: str, min_ratio: float = 0.85) -> bool:
 def pdf_to_text(data: bytes) -> str:
     """PyMuPDF があれば優先（日本語PDFに強い）。無ければ pypdf。"""
     try:
-        import fitz  # PyMuPDF
-        with fitz.open(stream=data, filetype="pdf") as doc:
+        try:
+            import pymupdf
+        except ImportError:
+            import fitz as pymupdf   # 古い版の名前
+        with pymupdf.open(stream=data, filetype="pdf") as doc:
             text = "\n".join(page.get_text() for page in doc)
         if is_readable(text):
             return text
