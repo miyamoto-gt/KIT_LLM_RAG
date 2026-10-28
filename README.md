@@ -2,7 +2,7 @@
 
 ## アーキテクチャ
 
-https://github.com/miyamoto-gt/KIT_LLM_RAG/issues/1#issue-6081290940
+<img width="1109" height="922" alt="Image" src="https://github.com/user-attachments/assets/f4054cb5-c346-44cc-a4af-1f840e44b691" />
 
 すべての情報源は `schema.Chunk`（id / text / source / title / breadcrumb / type）に揃える。
 
