@@ -4,7 +4,12 @@ import os
 import numpy as np
 
 from config import CFG
-from schema import load_chunks, save_chunks
+from schema import Chunk, load_chunks, save_chunks
+
+MAX_PER_SOURCE = getattr(CFG, "max_per_source", 1)     # 同じページから取るチャンク数の上限
+EXPAND_NEIGHBORS = getattr(CFG, "expand_neighbors", 1)  # 前後に何チャンクつなげるか（0で無効）
+PRIORITY_TYPES = ("manual", "map")                      # 手作りの正確なデータ
+PRIORITY_MARGIN = getattr(CFG, "priority_margin", 0.05)  # 一番近いWebチャンクとの類似度の差がこれ以内なら優先して入れる
 
 
 def char_bigrams(text: str) -> list:
@@ -39,6 +44,11 @@ def build_index() -> None:
     print(f"done: {len(chunks)} vectors, dim={vecs.shape[1]}")
 
 
+def _body(text: str) -> str:
+    """先頭の【タイトル】行を除いた本文。"""
+    return text.split("\n", 1)[-1] if text.startswith("【") else text
+
+
 class Retriever:
     """search(query) -> [(Chunk, ベクトル類似度)]。add() で回答時にチャンクを追加できる。"""
 
@@ -50,6 +60,10 @@ class Retriever:
         self._build_bm25()
 
     def _build_bm25(self):
+        # 手作りデータのベクトルを別に持っておき、毎回まとめて類似度を測る（件数が少ないので速い）
+        self.prio_ids = [i for i, c in enumerate(self.chunks) if c.type in PRIORITY_TYPES]
+        self.prio_vecs = (np.stack([self.index.reconstruct(i) for i in self.prio_ids])
+                          if self.prio_ids else None)
         self.bm25 = None
         if CFG.use_bm25:
             from rank_bm25 import BM25Okapi
@@ -62,10 +76,30 @@ class Retriever:
         self.chunks.extend(new_chunks)
         self._build_bm25()
 
+    def _expand(self, i: int) -> Chunk:
+        """同じページの前後のチャンクをつなげて、途中で切れた一覧などを補う。"""
+        if EXPAND_NEIGHBORS <= 0:
+            return self.chunks[i]
+        src = self.chunks[i].source
+        lo = i
+        while lo > 0 and i - lo < EXPAND_NEIGHBORS and self.chunks[lo - 1].source == src:
+            lo -= 1
+        hi = i
+        while hi + 1 < len(self.chunks) and hi - i < EXPAND_NEIGHBORS and self.chunks[hi + 1].source == src:
+            hi += 1
+        if lo == hi:
+            return self.chunks[i]
+        base = self.chunks[i]
+        header = base.text.split("\n", 1)[0] if base.text.startswith("【") else ""
+        body = "\n".join(_body(self.chunks[j].text) for j in range(lo, hi + 1))
+        return Chunk(id=base.id, text=f"{header}\n{body}" if header else body, source=src,
+                     title=base.title, breadcrumb=base.breadcrumb, type=base.type)
+
     def search(self, query: str, k: int = None) -> list:
         k = k or CFG.top_k
-        pool = k * 5
-        sims, ids = self.index.search(self.embedder.query(query), pool)
+        pool = k * 10
+        q = self.embedder.query(query)
+        sims, ids = self.index.search(q, pool)
         dense = {int(i): float(s) for i, s in zip(ids[0], sims[0]) if i >= 0}
         dense_rank = list(dense)
 
@@ -80,13 +114,26 @@ class Retriever:
                     fused[i] = fused.get(i, 0.0) + 1.0 / (60 + r)
             order = sorted(fused, key=fused.get, reverse=True)
 
-        q = None
-        out = []
-        for i in order[:k]:
+        # 手作りデータで十分近いものがあれば、先頭に入れて必ず資料に含める
+        if self.prio_vecs is not None and dense:
+            s = self.prio_vecs @ q[0]
+            j = int(np.argmax(s))
+            if s[j] >= max(dense.values()) - PRIORITY_MARGIN:
+                best = self.prio_ids[j]
+                dense[best] = float(s[j])
+                order = [best] + [i for i in order if i != best]
+
+        out, per_source = [], {}
+        for i in order:
+            src = self.chunks[i].source
+            if per_source.get(src, 0) >= MAX_PER_SOURCE:   # 同じページばかりで枠を埋めない
+                continue
+            per_source[src] = per_source.get(src, 0) + 1
             if i not in dense:     # BM25だけで拾ったものは類似度を個別計算
-                q = self.embedder.query(query) if q is None else q
                 dense[i] = float(self.index.reconstruct(i) @ q[0])
-            out.append((self.chunks[i], dense[i]))
+            out.append((self._expand(i), dense[i]))
+            if len(out) >= k:
+                break
         return out
 
 

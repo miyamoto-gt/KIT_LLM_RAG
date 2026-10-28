@@ -25,6 +25,10 @@ def postprocess(text: str, qtype: str) -> str:
         lines = [l for l in text.splitlines() if l.strip()]
         text = lines[0] if lines else ""
         text = re.sub(r"^(回答|答え)[:：]\s*", "", text)
+    if qtype == "explain":
+        sentences = re.findall(r"[^。]+。", text)
+        if sentences:
+            text = "".join(sentences[:3])
     return text.strip()
 
 
