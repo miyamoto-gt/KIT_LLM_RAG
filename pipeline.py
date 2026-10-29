@@ -12,7 +12,8 @@ from prompts import build_calc_answer_prompt, build_prompt
 from router import classify
 from tools import run_calc_tags
 
-STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）", "\n\n")
+STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）")
+LIST_ITEM = re.compile(r"\n\s*(?:[-・*●◆]|\d+\s*[.．)）、])\s*")
 
 
 def postprocess(text: str, qtype: str) -> str:
@@ -22,12 +23,32 @@ def postprocess(text: str, qtype: str) -> str:
             text = text.split(m)[0]
     text = text.strip()
     if qtype in ("fact", "calc"):
+        text = text.split("\n\n")[0]
         lines = [l for l in text.splitlines() if l.strip()]
         text = lines[0] if lines else ""
         text = re.sub(r"^(回答|答え)[:：]\s*", "", text)
     if qtype == "explain":
+        text = text.split("\n\n資料")[0]
+        parts, items = [], []
+        for line in text.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            m = LIST_ITEM.match("\n" + line)
+            if m:                                # 箇条書きの1行
+                items.append(line[m.end() - 1:].strip())
+                continue
+            if items:                            # 箇条書きが終わったら「、」でつないで1文にする
+                parts.append("、".join(items) + "。")
+                items = []
+            parts.append(line)
+        if items:
+            parts.append("、".join(items) + "。")
+        text = "".join(parts).replace("。。", "。")
+        if text and not text.endswith("。"):
+            text += "。"
         sentences = re.findall(r"[^。]+。", text)
-        if sentences:
+        if sentences:                            # 説明は最初の3文まで
             text = "".join(sentences[:3])
     return text.strip()
 

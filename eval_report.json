@@ -1,0 +1,2427 @@
+[
+  {
+    "id": "A01",
+    "category": "A_基本事実",
+    "question": "金沢工業大学にはいくつの学部がありますか？",
+    "expect": [
+      [
+        "6つ",
+        "6学部",
+        "六つ",
+        "6の学部"
+      ]
+    ],
+    "answer": "6つです。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/kifu/credit.html",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/new-index.html"
+    ],
+    "error": null,
+    "sec": 6.4
+  },
+  {
+    "id": "A02",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の学科の数はいくつですか？",
+    "expect": [
+      [
+        "17"
+      ]
+    ],
+    "answer": "17学科あります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/kifu/credit.html",
+      "https://www.kanazawa-it.ac.jp/pre/jugyo.html"
+    ],
+    "error": null,
+    "sec": 5.9
+  },
+  {
+    "id": "A03",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の扇が丘キャンパスの所在地はどこですか？",
+    "expect": [
+      [
+        "野々市"
+      ],
+      [
+        "扇が丘"
+      ]
+    ],
+    "answer": "石川県野々市市扇が丘7番1号です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/campus_map/",
+      "https://www.kanazawa-it.ac.jp/about_kit/access.html"
+    ],
+    "error": null,
+    "sec": 4.6
+  },
+  {
+    "id": "A04",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の学長は誰ですか？",
+    "expect": [
+      [
+        "大澤"
+      ]
+    ],
+    "answer": "大澤敏（おおさわ さとし）です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kyouinroku/a/JGABD.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/r4tenkenhyoukasyo.pdf",
+      "https://www.kanazawa-it.ac.jp/pre/jugyo.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/riji-list.pdf"
+    ],
+    "error": null,
+    "sec": 7.7
+  },
+  {
+    "id": "A05",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の学長は何年に就任しましたか？",
+    "expect": [
+      [
+        "2016"
+      ]
+    ],
+    "answer": "2016年4月です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kyouinroku/a/JGABD.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/kessan_zigyouhoukoku.pdf",
+      "https://www.kanazawa-it.ac.jp/about_kit/r4tenkenhyoukasyo.pdf",
+      "https://www.kanazawa-it.ac.jp/about_kit/yakuin-hoshu.pdf"
+    ],
+    "error": null,
+    "sec": 9.5
+  },
+  {
+    "id": "A06",
+    "category": "A_基本事実",
+    "question": "工学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,595,000円、2025・2026年度の入学者は1,515,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A07",
+    "category": "A_基本事実",
+    "question": "情報理工学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,595,000円、2025・2026年度の入学者は1,515,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A08",
+    "category": "A_基本事実",
+    "question": "建築学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,595,000円、2025・2026年度の入学者は1,515,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A09",
+    "category": "A_基本事実",
+    "question": "バイオ・化学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,595,000円、2025・2026年度の入学者は1,515,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 5.3
+  },
+  {
+    "id": "A10",
+    "category": "A_基本事実",
+    "question": "情報デザイン学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1315000",
+        "131万5000",
+        "1395000",
+        "139万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,395,000円、2025・2026年度の入学者は1,315,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A11",
+    "category": "A_基本事実",
+    "question": "メディア情報学部の年間の授業料はいくらですか？",
+    "expect": [
+      [
+        "1315000",
+        "131万5000",
+        "1395000",
+        "139万5000"
+      ]
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,395,000円、2025・2026年度の入学者は1,315,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A12",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の入学金はいくらですか？",
+    "expect": [
+      [
+        "200000",
+        "20万"
+      ]
+    ],
+    "answer": "全学部200,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "A13",
+    "category": "A_基本事実",
+    "question": "工学部の初年度納入金はいくらですか？",
+    "expect": [
+      [
+        "1715000",
+        "171万5000",
+        "1795000",
+        "179万5000"
+      ]
+    ],
+    "answer": "2027年度入学者は1,795,000円、2026年度入学者は1,715,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.7
+  },
+  {
+    "id": "A14",
+    "category": "A_基本事実",
+    "question": "金沢工業大学の学部をすべて教えてください。",
+    "expect": [
+      [
+        "工学部"
+      ],
+      [
+        "情報理工学部"
+      ],
+      [
+        "建築学部"
+      ],
+      [
+        "バイオ・化学部"
+      ],
+      [
+        "情報デザイン学部"
+      ],
+      [
+        "メディア情報学部"
+      ]
+    ],
+    "answer": "金沢工業大学には6つの学部があり、それぞれ工学部、情報理工学部、建築学部、バイオ・化学部、情報デザイン学部、メディア情報学部です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/new-index.html",
+      "https://www.kanazawa-it.ac.jp/m_gallery/"
+    ],
+    "error": null,
+    "sec": 19.5
+  },
+  {
+    "id": "A15",
+    "category": "A_基本事実",
+    "question": "情報理工学部にはいくつの学科がありますか？",
+    "expect": [
+      [
+        "3つ",
+        "3学科",
+        "三つ"
+      ]
+    ],
+    "answer": "3つです。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department"
+    ],
+    "error": null,
+    "sec": 4.4
+  },
+  {
+    "id": "A16",
+    "category": "A_基本事実",
+    "question": "工学部にはいくつの学科がありますか？",
+    "expect": [
+      [
+        "6つ",
+        "6学科",
+        "六つ"
+      ]
+    ],
+    "answer": "6つです。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/kifu/credit.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_7/list_1/page_1.html"
+    ],
+    "error": null,
+    "sec": 6.6
+  },
+  {
+    "id": "A17",
+    "category": "A_基本事実",
+    "question": "建築学部にはどのような学科がありますか？",
+    "expect": [
+      [
+        "建築学科"
+      ],
+      [
+        "建築デザイン学科"
+      ]
+    ],
+    "answer": "建築学部には、建築学科と建築デザイン学科の2つの学科があります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kenchiku/archit/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/architecture/architecture.html",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/mi/"
+    ],
+    "error": null,
+    "sec": 21.1
+  },
+  {
+    "id": "A18",
+    "category": "A_基本事実",
+    "question": "バイオ・化学部の学科を教えてください。",
+    "expect": [
+      [
+        "環境・応用化学科"
+      ],
+      [
+        "生命・応用バイオ学科"
+      ]
+    ],
+    "answer": "バイオ・化学部には、環境・応用化学科と生命・応用バイオ学科の2つの学科があります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/chemistry/",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-bio-kagaku/lsb/"
+    ],
+    "error": null,
+    "sec": 19.0
+  },
+  {
+    "id": "A19",
+    "category": "A_基本事実",
+    "question": "情報デザイン学部の学科を教えてください。",
+    "expect": [
+      [
+        "経営情報学科"
+      ],
+      [
+        "環境デザイン創成学科"
+      ]
+    ],
+    "answer": "情報デザイン学部には2つの学科があり、それは経営情報学科と環境デザイン創成学科です。これらの学科は情報デザイン学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/mi/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/media/psychology_design.html"
+    ],
+    "error": null,
+    "sec": 19.0
+  },
+  {
+    "id": "A20",
+    "category": "A_基本事実",
+    "question": "金沢工業大学は国立大学と私立大学のどちらですか？",
+    "expect": [
+      [
+        "私立"
+      ]
+    ],
+    "forbid": [
+      "国立大学です"
+    ],
+    "answer": "私立大学です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kyouinroku/a/JGABD.html",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/about_kit/",
+      "https://www.kanazawa-it.ac.jp/about_kit/kessan_zigyouhoukoku.pdf"
+    ],
+    "error": null,
+    "sec": 5.6
+  },
+  {
+    "id": "S01",
+    "category": "A2_学科の所属",
+    "question": "情報工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "情報理工学部"
+      ]
+    ],
+    "answer": "情報理工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-joho/ics/",
+      "https://search.keinet.ne.jp/2359/outline/department"
+    ],
+    "error": null,
+    "sec": 5.0
+  },
+  {
+    "id": "S02",
+    "category": "A2_学科の所属",
+    "question": "知能情報システム学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "情報理工学部"
+      ]
+    ],
+    "answer": "情報理工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-joho/ai/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatic_technology/artificial_intelligence.html"
+    ],
+    "error": null,
+    "sec": 6.7
+  },
+  {
+    "id": "S03",
+    "category": "A2_学科の所属",
+    "question": "ロボティクス学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "情報理工学部"
+      ]
+    ],
+    "answer": "情報理工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-joho/robo/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatic_technology/robotics.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatic_technology/pdf/flow_robotics.pdf"
+    ],
+    "error": null,
+    "sec": 6.9
+  },
+  {
+    "id": "S04",
+    "category": "A2_学科の所属",
+    "question": "機械工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/me/",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/kogaku/kikai/",
+      "https://search.keinet.ne.jp/2359/outline/department"
+    ],
+    "error": null,
+    "sec": 6.4
+  },
+  {
+    "id": "S05",
+    "category": "A2_学科の所属",
+    "question": "先進機械システム工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/amse/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/advanced_mechanical.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 6.8
+  },
+  {
+    "id": "S06",
+    "category": "A2_学科の所属",
+    "question": "航空宇宙工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/aa/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/aeronautics_astronautics.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 6.8
+  },
+  {
+    "id": "S07",
+    "category": "A2_学科の所属",
+    "question": "電気エネルギーシステム工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/eese/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/electrical_energy.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/pdf/flow_electrical_energy.pdf",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 9.2
+  },
+  {
+    "id": "S08",
+    "category": "A2_学科の所属",
+    "question": "電子情報システム工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/eise/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/electronics_information.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 7.2
+  },
+  {
+    "id": "S09",
+    "category": "A2_学科の所属",
+    "question": "環境土木工学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "工学部"
+      ]
+    ],
+    "forbid": [
+      "情報理工学部"
+    ],
+    "answer": "工学部です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/see/",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/kogaku/kankyo_doboku/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/civil.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2024/chapter_6/undergraduate/engineering/civil.html"
+    ],
+    "error": null,
+    "sec": 8.7
+  },
+  {
+    "id": "S10",
+    "category": "A2_学科の所属",
+    "question": "経営情報学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "情報デザイン学部"
+      ]
+    ],
+    "answer": "情報デザイン学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-design/ms/",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/frontier/keiei/"
+    ],
+    "error": null,
+    "sec": 5.7
+  },
+  {
+    "id": "S11",
+    "category": "A2_学科の所属",
+    "question": "環境デザイン創成学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "情報デザイン学部"
+      ]
+    ],
+    "answer": "情報デザイン学部です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-design/edi/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatics/environment_design.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 6.9
+  },
+  {
+    "id": "S12",
+    "category": "A2_学科の所属",
+    "question": "心理情報デザイン学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "メディア情報学部"
+      ]
+    ],
+    "answer": "メディア情報学部です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/pid/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/media/psychology_design.html",
+      "https://search.keinet.ne.jp/2359/outline/department"
+    ],
+    "error": null,
+    "sec": 5.5
+  },
+  {
+    "id": "S13",
+    "category": "A2_学科の所属",
+    "question": "メディア情報学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "メディア情報学部"
+      ]
+    ],
+    "answer": "メディア情報学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/mi/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_7/list_1/page_1.html"
+    ],
+    "error": null,
+    "sec": 5.9
+  },
+  {
+    "id": "S14",
+    "category": "A2_学科の所属",
+    "question": "生命・応用バイオ学科はどの学部に属していますか？",
+    "expect": [
+      [
+        "バイオ・化学部"
+      ]
+    ],
+    "answer": "バイオ・化学部に属しています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-bio-kagaku/lsb/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/chemistry/bioscience.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 7.6
+  },
+  {
+    "id": "B01",
+    "category": "B_キャンパス施設",
+    "question": "図書館は何号館にありますか？",
+    "expect": [
+      [
+        "6号館"
+      ]
+    ],
+    "answer": "6号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.3
+  },
+  {
+    "id": "B02",
+    "category": "B_キャンパス施設",
+    "question": "コンビニエンスストアは何号館の何階にありますか？",
+    "expect": [
+      [
+        "27号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "27号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.6
+  },
+  {
+    "id": "B03",
+    "category": "B_キャンパス施設",
+    "question": "扇が丘診療所は何号館にありますか？",
+    "expect": [
+      [
+        "11号館"
+      ]
+    ],
+    "answer": "11号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/shisetsu/kenko/clinic.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_4.html"
+    ],
+    "error": null,
+    "sec": 6.1
+  },
+  {
+    "id": "B04",
+    "category": "B_キャンパス施設",
+    "question": "大学内の郵便局は何号館にありますか？",
+    "expect": [
+      [
+        "5号館"
+      ]
+    ],
+    "answer": "5号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_2.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 5.9
+  },
+  {
+    "id": "B05",
+    "category": "B_キャンパス施設",
+    "question": "夢考房は何号館にありますか？",
+    "expect": [
+      [
+        "41号館"
+      ]
+    ],
+    "answer": "41号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/yumekobo/faq/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_3.html",
+      "https://www.kanazawa-it.ac.jp/yumekobo/about/"
+    ],
+    "error": null,
+    "sec": 7.5
+  },
+  {
+    "id": "B06",
+    "category": "B_キャンパス施設",
+    "question": "進路開発センターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "10号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "10号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/shisetsu/career-support.html",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "B07",
+    "category": "B_キャンパス施設",
+    "question": "学生ステーションは何号館にありますか？",
+    "expect": [
+      [
+        "23号館"
+      ]
+    ],
+    "answer": "23号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/gstation/contact/",
+      "http://www.kanazawa-it.ac.jp/gstation/"
+    ],
+    "error": null,
+    "sec": 5.7
+  },
+  {
+    "id": "B08",
+    "category": "B_キャンパス施設",
+    "question": "カウンセリングセンターは何号館にありますか？",
+    "expect": [
+      [
+        "36号館"
+      ]
+    ],
+    "answer": "36号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_2/list_5/page_5.html"
+    ],
+    "error": null,
+    "sec": 5.6
+  },
+  {
+    "id": "B09",
+    "category": "B_キャンパス施設",
+    "question": "第1体育館は何号館にありますか？",
+    "expect": [
+      [
+        "13号館"
+      ]
+    ],
+    "answer": "13号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 5.1
+  },
+  {
+    "id": "B10",
+    "category": "B_キャンパス施設",
+    "question": "第2体育館は何号館にありますか？",
+    "expect": [
+      [
+        "20号館"
+      ]
+    ],
+    "answer": "20号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 5.1
+  },
+  {
+    "id": "B11",
+    "category": "B_キャンパス施設",
+    "question": "自習室は何号館にありますか？",
+    "expect": [
+      [
+        "7号館"
+      ]
+    ],
+    "answer": "7号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_2/list_1/page_6.html",
+      "https://www.kanazawa-it.ac.jp/shisetsu/shien.html",
+      "https://www.kanazawa-it.ac.jp/yumekobo/faq/"
+    ],
+    "error": null,
+    "sec": 6.4
+  },
+  {
+    "id": "B12",
+    "category": "B_キャンパス施設",
+    "question": "KITブックセンターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "21号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "21号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_7.html",
+      "https://www.kanazawa-it.ac.jp/kitnews/2026/__icsFiles/afieldfile/2026/07/23/20260924_orientation.pdf"
+    ],
+    "error": null,
+    "sec": 6.7
+  },
+  {
+    "id": "B13",
+    "category": "B_キャンパス施設",
+    "question": "AIラボは何号館にありますか？",
+    "expect": [
+      [
+        "31号館"
+      ]
+    ],
+    "answer": "31号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.8
+  },
+  {
+    "id": "B14",
+    "category": "B_キャンパス施設",
+    "question": "入試センターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "1号館"
+      ],
+      [
+        "1階",
+        "1F"
+      ]
+    ],
+    "answer": "1号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "B15",
+    "category": "B_キャンパス施設",
+    "question": "教務課は何号館の何階にありますか？",
+    "expect": [
+      [
+        "1号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "1号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "B16",
+    "category": "B_キャンパス施設",
+    "question": "修学相談室は何号館の何階にありますか？",
+    "expect": [
+      [
+        "1号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "1号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "B17",
+    "category": "B_キャンパス施設",
+    "question": "パソコンセンターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "8号館"
+      ],
+      [
+        "3階",
+        "3F"
+      ]
+    ],
+    "answer": "8号館の3階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_2/list_6/page_4.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 6.8
+  },
+  {
+    "id": "B18",
+    "category": "B_キャンパス施設",
+    "question": "自己開発センターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "8号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "8号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "http://www.kanazawa-it.ac.jp/shikaku/",
+      "https://www.kanazawa-it.ac.jp/shikaku/",
+      "https://www.kanazawa-it.ac.jp/shikaku"
+    ],
+    "error": null,
+    "sec": 6.7
+  },
+  {
+    "id": "B19",
+    "category": "B_キャンパス施設",
+    "question": "扇が丘保育園は何号館にありますか？",
+    "expect": [
+      [
+        "10号館"
+      ]
+    ],
+    "answer": "10号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.4
+  },
+  {
+    "id": "B20",
+    "category": "B_キャンパス施設",
+    "question": "SDGs推進センターは何号館にありますか？",
+    "expect": [
+      [
+        "12号館"
+      ]
+    ],
+    "answer": "12号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_4.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 6.4
+  },
+  {
+    "id": "B21",
+    "category": "B_キャンパス施設",
+    "question": "カフェテリア IL SOLEは何号館の何階にありますか？",
+    "expect": [
+      [
+        "21号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "21号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_7.html",
+      "https://www.kanazawa-it.ac.jp/ekit/life/facilities/"
+    ],
+    "error": null,
+    "sec": 6.3
+  },
+  {
+    "id": "B22",
+    "category": "B_キャンパス施設",
+    "question": "レストラン LA TERRAは何号館の何階にありますか？",
+    "expect": [
+      [
+        "21号館"
+      ],
+      [
+        "1階",
+        "1F"
+      ]
+    ],
+    "answer": "21号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_7.html",
+      "https://www.kanazawa-it.ac.jp/ekit/life/facilities/",
+      "https://www.kanazawa-it.ac.jp/campuslife/gakushoku.html"
+    ],
+    "error": null,
+    "sec": 6.6
+  },
+  {
+    "id": "B23",
+    "category": "B_キャンパス施設",
+    "question": "留学支援・国際交流センターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "23号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "23号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "https://www.kanazawa-it.ac.jp/shisetsu/shien.html"
+    ],
+    "error": null,
+    "sec": 7.3
+  },
+  {
+    "id": "B24",
+    "category": "B_キャンパス施設",
+    "question": "プロジェクト教育センターは何号館の何階にありますか？",
+    "expect": [
+      [
+        "24号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "24号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.8
+  },
+  {
+    "id": "B25",
+    "category": "B_キャンパス施設",
+    "question": "学生ラウンジは何号館の何階にありますか？",
+    "expect": [
+      [
+        "27号館"
+      ],
+      [
+        "1階",
+        "1F"
+      ]
+    ],
+    "answer": "27号館の1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.7
+  },
+  {
+    "id": "B26",
+    "category": "B_キャンパス施設",
+    "question": "法人本部は何号館にありますか？",
+    "expect": [
+      [
+        "29号館"
+      ]
+    ],
+    "answer": "29号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 5.1
+  },
+  {
+    "id": "B27",
+    "category": "B_キャンパス施設",
+    "question": "KIT国際交流会館は何号館にありますか？",
+    "expect": [
+      [
+        "47号館"
+      ]
+    ],
+    "answer": "47号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/shisetsu/seminar.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "https://www.kanazawa-it.ac.jp/about_kit/ogigaoka.html"
+    ],
+    "error": null,
+    "sec": 6.7
+  },
+  {
+    "id": "B28",
+    "category": "B_キャンパス施設",
+    "question": "臨床心理センターは何号館にありますか？",
+    "expect": [
+      [
+        "43号館"
+      ]
+    ],
+    "answer": "43号館です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/daigakuin/shinri/08.html",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 5.0
+  },
+  {
+    "id": "B29",
+    "category": "B_キャンパス施設",
+    "question": "スポーツ考房は何号館の何階にありますか？",
+    "expect": [
+      [
+        "20号館"
+      ],
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "20号館の2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/sports-k/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_4.html"
+    ],
+    "error": null,
+    "sec": 5.9
+  },
+  {
+    "id": "B30",
+    "category": "B_キャンパス施設",
+    "question": "多目的ホールは何号館の何階にありますか？",
+    "expect": [
+      [
+        "6号館"
+      ],
+      [
+        "3階",
+        "3F"
+      ]
+    ],
+    "answer": "6号館の3階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "C01",
+    "category": "C_図書館フロア",
+    "question": "図書館の5階には何がありますか？",
+    "expect": [
+      [
+        "情報工学",
+        "経営管理"
+      ]
+    ],
+    "answer": "分野別フロアで、情報工学系、経営管理工学系の本があります。また、グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.4
+  },
+  {
+    "id": "C02",
+    "category": "C_図書館フロア",
+    "question": "図書館の6階には何がありますか？",
+    "expect": [
+      [
+        "電気工学",
+        "電子・通信"
+      ]
+    ],
+    "forbid": [
+      "AI情報技術教育センター",
+      "情報処理サービスセンター",
+      "多目的ホール"
+    ],
+    "answer": "分野別フロアで、電気工学系、電子・通信工学系の本があります。グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.6
+  },
+  {
+    "id": "C03",
+    "category": "C_図書館フロア",
+    "question": "図書館の7階には何がありますか？",
+    "expect": [
+      [
+        "機械工学",
+        "資源・エネルギー"
+      ]
+    ],
+    "answer": "分野別フロアで、機械工学系、資源・エネルギー工学系の本があります。また、グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.3
+  },
+  {
+    "id": "C04",
+    "category": "C_図書館フロア",
+    "question": "図書館の8階には何がありますか？",
+    "expect": [
+      [
+        "力学",
+        "建設工学",
+        "材料工学"
+      ]
+    ],
+    "answer": "分野別フロアで、力学応用系、建設工学系、材料工学・加工工学系の本があります。また、グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.3
+  },
+  {
+    "id": "C05",
+    "category": "C_図書館フロア",
+    "question": "図書館の9階には何がありますか？",
+    "expect": [
+      [
+        "環境・都市",
+        "建築計画"
+      ]
+    ],
+    "answer": "分野別フロアで、環境・都市工学系、建築計画・デザイン系の本があります。また、グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.3
+  },
+  {
+    "id": "C06",
+    "category": "C_図書館フロア",
+    "question": "図書館の10階には何がありますか？",
+    "expect": [
+      [
+        "化学・バイオ",
+        "生命・心理"
+      ]
+    ],
+    "answer": "分野別フロアで、化学・バイオ系、生命・心理系の本があります。また、グループ閲覧室もあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "C07",
+    "category": "C_図書館フロア",
+    "question": "ライティングセンターは図書館の何階にありますか？",
+    "expect": [
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.7
+  },
+  {
+    "id": "C08",
+    "category": "C_図書館フロア",
+    "question": "学習支援デスクは図書館の何階にありますか？",
+    "expect": [
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/r4tenkenhyoukasyo.pdf",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 5.4
+  },
+  {
+    "id": "C09",
+    "category": "C_図書館フロア",
+    "question": "女性専用閲覧室は図書館の何階にありますか？",
+    "expect": [
+      [
+        "11階",
+        "11F"
+      ]
+    ],
+    "answer": "11階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "C10",
+    "category": "C_図書館フロア",
+    "question": "酒井メモリアルホールは図書館の何階にありますか？",
+    "expect": [
+      [
+        "3階",
+        "3F"
+      ]
+    ],
+    "answer": "3階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.7
+  },
+  {
+    "id": "C11",
+    "category": "C_図書館フロア",
+    "question": "Knowledge Squareは図書館の何階にありますか？",
+    "expect": [
+      [
+        "3階",
+        "3F"
+      ]
+    ],
+    "answer": "3階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_2.html"
+    ],
+    "error": null,
+    "sec": 6.6
+  },
+  {
+    "id": "C12",
+    "category": "C_図書館フロア",
+    "question": "閲覧室は図書館の何階にありますか？",
+    "expect": [
+      [
+        "4階",
+        "4F"
+      ]
+    ],
+    "answer": "4階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.3
+  },
+  {
+    "id": "C13",
+    "category": "C_図書館フロア",
+    "question": "展示室は図書館の何階にありますか？",
+    "expect": [
+      [
+        "1階",
+        "1F"
+      ]
+    ],
+    "answer": "1階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "C14",
+    "category": "C_図書館フロア",
+    "question": "レファレンスカウンターは図書館の何階にありますか？",
+    "expect": [
+      [
+        "2階",
+        "2F"
+      ]
+    ],
+    "answer": "2階です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.7
+  },
+  {
+    "id": "D01",
+    "category": "D_説明",
+    "question": "夢考房とはどのような施設ですか？",
+    "expect": [
+      [
+        "ものづくり"
+      ]
+    ],
+    "answer": "夢考房は、学生が自由にものづくり活動に取り組めるワークスペースであり、正課教育で学んだ知識を正課外教育に持ち寄り、仲間たちとの議論・失敗・試行錯誤を繰り返し、目標を成し遂げたときに得られる達成感が正課教育のさらなる充実につながる場所です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/yumekobo/about/",
+      "https://www.kanazawa-it.ac.jp/yumekobo/function/",
+      "https://www.kanazawa-it.ac.jp/yumekobo/calender/"
+    ],
+    "error": null,
+    "sec": 18.9
+  },
+  {
+    "id": "D02",
+    "category": "D_説明",
+    "question": "プロジェクトデザイン教育とはどのような教育ですか？",
+    "expect": [
+      [
+        "自ら考え",
+        "創造的",
+        "問題",
+        "解決"
+      ]
+    ],
+    "answer": "プロジェクトデザイン教育とは、学生が自ら考え行動する創造的探究・実践力を育成するための教育です。これは、知識教育と実技教育で培った能力を統合し、実践知に変える役割を担っています。具体的には、ユーザーが何を必要としているかを考え、問題を発見し、知識やアイデアを組み合わせて解決策を創出し、具体化して実験・検証・評価するPBL（Project  The process of project design education is as follows: Problem identification, problem clarification, idea generation, evaluation and selection of ideas, idea implementation, idea operation, and verification of the solution. CDIO (Conceive, Design, Implement, Operate) and \"design thinking\" methods used in users are also incorporated into project design education to develop practical knowledge that is expected from global human resources. In project design education, there is an English course with a goal of global human resource development. Students who aim to improve their English pro。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kyoiku/pd/",
+      "https://www.kanazawa-it.ac.jp/about_kit/eagle-book_r8.pdf",
+      "https://www.kanazawa-it.ac.jp/kitnews/2025/1003_PD_jissen.html",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/policy/2022-cp.pdf"
+    ],
+    "error": null,
+    "sec": 23.1
+  },
+  {
+    "id": "D03",
+    "category": "D_説明",
+    "question": "KIT入学教育とは何ですか？",
+    "expect": [
+      [
+        "入学",
+        "高校生"
+      ],
+      [
+        "授業体験",
+        "ステップアップ",
+        "直前集中",
+        "大学での学び",
+        "大学の学び"
+      ]
+    ],
+    "answer": "KIT入学教育は、金沢工業大学に入学予定の高校生を対象としたプログラムです。KIT授業体験、KITステップアップ講座、先取り科目などのプログラムがあり、入学前から大学での学びに触れることができます。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/pre/",
+      "https://www.kanazawa-it.ac.jp/pre/jugyo.html",
+      "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+      "https://www.kanazawa-it.ac.jp/pre/step-up.html"
+    ],
+    "error": null,
+    "sec": 23.0
+  },
+  {
+    "id": "D04",
+    "category": "D_説明",
+    "question": "オナーズプログラムとは何ですか？",
+    "expect": [
+      [
+        "自己目標",
+        "目標達成",
+        "創造的探究"
+      ]
+    ],
+    "answer": "オナーズプログラムとは、金沢工業大学の教育目標である「自ら考え行動する創造的探究・実践人材」を育成するために設けられた、学生の自己目標達成プログラムです。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kyoiku/honors.html",
+      "https://www.kanazawa-it.ac.jp/kyoshoku/study/page_2.html",
+      "https://www.kanazawa-it.ac.jp/nyusi/pdf/2027_honor.pdf",
+      "https://www.kanazawa-it.ac.jp/kyoiku/honors.html"
+    ],
+    "error": null,
+    "sec": 20.4
+  },
+  {
+    "id": "D05",
+    "category": "D_説明",
+    "question": "図書館のPMCとは何ですか？",
+    "expect": [
+      [
+        "ポピュラー・ミュージック",
+        "ポピュラーミュージック"
+      ]
+    ],
+    "answer": "PMCとはポピュラー・ミュージック・コレクションの略で、アナログレコードを中心に27万枚以上を所蔵する施設です。レコードの貸出・返却などの受付や、レコード・機材の管理、整理を担います。趣味と実益を兼ねた学生から人気の勤務先となっています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/r4tenkenhyoukasyo.pdf",
+      "https://www.kanazawa-it.ac.jp/campuslife/intern.html",
+      "https://www.kanazawa-it.ac.jp/ekit/life/facilities/"
+    ],
+    "error": null,
+    "sec": 21.8
+  },
+  {
+    "id": "D06",
+    "category": "D_説明",
+    "question": "23号館にはどのような施設がありますか？",
+    "expect": [
+      [
+        "学生ステーション",
+        "基礎英語",
+        "国際交流",
+        "数理工",
+        "CDIO"
+      ]
+    ],
+    "answer": "23号館には、1階にCDIOイノベーション＆デザインスタジオ、学生ステーションがあります。2階には基礎英語教育センター、留学支援・国際交流センターがあります。3階には基礎英語教育センターがあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/gstation/guide/"
+    ],
+    "error": null,
+    "sec": 18.4
+  },
+  {
+    "id": "D07",
+    "category": "D_説明",
+    "question": "21号館にはどのような施設がありますか？",
+    "expect": [
+      [
+        "食堂",
+        "カフェテリア",
+        "レストラン",
+        "IL SOLE",
+        "LA TERRA",
+        "ブックセンター"
+      ]
+    ],
+    "answer": "21号館には、1階にレストラン LA TERRA、2階にKITブックセンター、KITサービスセンター、カフェテリア IL SOLEがあります。また、6階には日本学研究所があります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/mi/",
+      "https://www.kanazawa-it.ac.jp/ekit/life/facilities/"
+    ],
+    "error": null,
+    "sec": 19.6
+  },
+  {
+    "id": "D08",
+    "category": "D_説明",
+    "question": "31号館にはどのような施設がありますか？",
+    "expect": [
+      [
+        "AIラボ",
+        "国際高等専門学校",
+        "ロボティクスラボ",
+        "AI Dream Factory"
+      ]
+    ],
+    "answer": "31号館には、1階に国際高等専門学校、2階にAIラボ、AI Dream Factory、ロボティクスラボ、3階と4階に国際高等専門学校があります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-media/mi/",
+      "https://www.kanazawa-it.ac.jp/nyusi/pdf/yoko_2027.pdf"
+    ],
+    "error": null,
+    "sec": 20.5
+  },
+  {
+    "id": "E01",
+    "category": "E_計算",
+    "question": "工学部の入学金と1年分の授業料を合わせるといくらですか？",
+    "expect": [
+      [
+        "1715000",
+        "171万5000",
+        "1795000",
+        "179万5000"
+      ]
+    ],
+    "answer": "179万5千円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 9.4
+  },
+  {
+    "id": "E02",
+    "category": "E_計算",
+    "question": "メディア情報学部の入学金と1年分の授業料の合計はいくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "answer": "159万5千円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 10.4
+  },
+  {
+    "id": "E03",
+    "category": "E_計算",
+    "question": "工学部と情報デザイン学部の年間授業料の差はいくらですか？",
+    "expect": [
+      [
+        "200000",
+        "20万"
+      ]
+    ],
+    "answer": "20万円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 9.5
+  },
+  {
+    "id": "E04",
+    "category": "E_計算",
+    "question": "保護者会費と学友会費と同窓会費を合わせるといくらですか？",
+    "expect": [
+      [
+        "29700",
+        "2万9700",
+        "14850",
+        "1万4850"
+      ]
+    ],
+    "answer": "29,700円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/nyusi/pdf/yoko_2027.pdf",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/pdf/campusguide2026.pdf"
+    ],
+    "error": null,
+    "sec": 17.1
+  },
+  {
+    "id": "E05",
+    "category": "E_計算",
+    "question": "金沢工業大学の学部の数と学科の数を合計するといくつですか？",
+    "expect": [
+      [
+        "23"
+      ]
+    ],
+    "answer": "学部の数は6つ、学科の数は17つです。したがって、合計は23です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_7/list_1/page_1.html",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-design/edi/",
+      "https://www.kanazawa-it.ac.jp/pre/jugyo.html"
+    ],
+    "error": null,
+    "sec": 13.2
+  },
+  {
+    "id": "E06",
+    "category": "E_計算",
+    "question": "工学部と情報理工学部の学科の数を合わせるといくつですか？",
+    "expect": [
+      [
+        "9"
+      ]
+    ],
+    "answer": "9つです。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "calc",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatic_technology/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/informatic_technology/computer_science.html"
+    ],
+    "error": null,
+    "sec": 9.8
+  },
+  {
+    "id": "F01",
+    "category": "F_引っかけ",
+    "question": "金沢工業大学の特徴を教えてください。",
+    "expect": [
+      [
+        "野々市",
+        "私立",
+        "工学",
+        "6学部"
+      ]
+    ],
+    "forbid": [
+      "スーパーグローバル",
+      "薬学部",
+      "看護"
+    ],
+    "answer": "金沢工業大学は、石川県野々市市にある私立大学です。6学部17学科があり、工学系を中心に幅広い分野の学びを提供しています。また、実践的な教育に力を入れており、企業や地域との連携プロジェクトも多く行われています。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "explain",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/kyouinroku/a/JGABD.html",
+      "https://www.kanazawa-it.ac.jp/m_gallery/",
+      "https://www.kanazawa-it.ac.jp/about_kit/ir_syugakushien-r8.pdf"
+    ],
+    "error": null,
+    "sec": 19.6
+  },
+  {
+    "id": "F02",
+    "category": "F_引っかけ",
+    "question": "金沢工業大学の授業料は年間いくらですか？",
+    "expect": [
+      [
+        "1515000",
+        "151万5000",
+        "1595000",
+        "159万5000"
+      ]
+    ],
+    "forbid": [
+      "薬学部",
+      "約60万",
+      "約100万"
+    ],
+    "answer": "2027年度（令和9年度）以降の入学者は1,595,000円、2025・2026年度の入学者は1,515,000円です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html"
+    ],
+    "error": null,
+    "sec": 4.9
+  },
+  {
+    "id": "F03",
+    "category": "F_引っかけ",
+    "question": "6号館の1階には何がありますか？",
+    "expect": [
+      [
+        "AI情報技術教育センター"
+      ]
+    ],
+    "answer": "AI情報技術教育センターがあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "https://www.kanazawa-it.ac.jp/kitlc/about/map.html",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.4
+  },
+  {
+    "id": "F04",
+    "category": "F_引っかけ",
+    "question": "金沢工業大学に薬学部はありますか？",
+    "expect": [
+      [
+        "ありません",
+        "ない",
+        "存在しません",
+        "いいえ"
+      ]
+    ],
+    "answer": "いいえ、金沢工業大学には薬学部はありません。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/about_kit/nonyukin.html",
+      "https://www.kanazawa-it.ac.jp/kyoiku/2019_kanazawa-platform-02.pdf",
+      "https://www.kanazawa-it.ac.jp/kifu/credit.html"
+    ],
+    "error": null,
+    "sec": 6.7
+  },
+  {
+    "id": "F05",
+    "category": "F_引っかけ",
+    "question": "金沢大学と金沢工業大学は同じ大学ですか？",
+    "expect": [
+      [
+        "違い",
+        "異なり",
+        "別",
+        "いいえ"
+      ]
+    ],
+    "answer": "いいえ、違います。金沢大学は国立大学ですが、金沢工業大学は私立大学です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/kyouinroku/a/JGABD.html",
+      "https://www.kanazawa-it.ac.jp/about_kit/enkaku.html",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_3/list_3/page_5.html"
+    ],
+    "error": null,
+    "sec": 5.7
+  },
+  {
+    "id": "F06",
+    "category": "F_引っかけ",
+    "question": "1号館の4階には何がありますか？",
+    "expect": [
+      [
+        "教職支援室",
+        "オナーズプログラム推進課"
+      ]
+    ],
+    "answer": "教職支援室とオナーズプログラム推進課があります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.5
+  },
+  {
+    "id": "F07",
+    "category": "F_引っかけ",
+    "question": "27号館の1階には何がありますか？",
+    "expect": [
+      [
+        "学生ラウンジ"
+      ]
+    ],
+    "forbid": [
+      "コンビニ"
+    ],
+    "answer": "学生ラウンジがあります。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ",
+      "キャンパスマップ"
+    ],
+    "error": null,
+    "sec": 4.6
+  },
+  {
+    "id": "F08",
+    "category": "F_引っかけ",
+    "question": "電子情報システム工学科は情報理工学部の学科ですか？",
+    "expect": [
+      [
+        "工学部"
+      ],
+      [
+        "いいえ",
+        "ではありません",
+        "ではなく",
+        "違い"
+      ]
+    ],
+    "answer": "いいえ、電子情報システム工学科は工学部の学科です。",
+    "verdict": "pass",
+    "detail": "",
+    "qtype": "fact",
+    "sources": [
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://search.keinet.ne.jp/2359/outline/department",
+      "https://www.kanazawa-it.ac.jp/gakubu_daigakuin/c-kogaku/eise/",
+      "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_6/undergraduate/engineering/electronics_information.html"
+    ],
+    "error": null,
+    "sec": 5.7
+  }
+]

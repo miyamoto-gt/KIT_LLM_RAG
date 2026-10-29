@@ -1,5 +1,6 @@
 """④ ベクトル索引の作成と、⑥ 検索（ベクトル＋任意でBM25のハイブリッド）。"""
 import os
+import re
 
 import numpy as np
 
@@ -9,7 +10,38 @@ from schema import Chunk, load_chunks, save_chunks
 MAX_PER_SOURCE = getattr(CFG, "max_per_source", 1)     # 同じページから取るチャンク数の上限
 EXPAND_NEIGHBORS = getattr(CFG, "expand_neighbors", 1)  # 前後に何チャンクつなげるか（0で無効）
 PRIORITY_TYPES = ("manual", "map")                      # 手作りの正確なデータ
+PRIORITY_TOP = getattr(CFG, "priority_top", 2)          # 手作りデータを最大何件まで優先するか
 PRIORITY_MARGIN = getattr(CFG, "priority_margin", 0.05)  # 一番近いWebチャンクとの類似度の差がこれ以内なら優先して入れる
+CURRENT_YEAR = getattr(CFG, "current_year", 2026)       # 新しさの基準年
+RECENCY_DECAY = getattr(CFG, "recency_decay", 0.9)      # 1年古くなるごとに点数を何倍にするか（1.0で無効）
+MAX_AGE = 5                                             # これ以上古くても下げ幅は同じ
+
+_URL_YEAR = re.compile(r"(?<!\d)(20[0-3]\d)(?=\d{4}(?!\d)|\D|$)")   # /2024/ や 20231104_ など
+_URL_REIWA = re.compile(r"(?<![a-z])r(\d{1,2})_")         # r8_kougaku など（令和）
+_TEXT_YEAR = re.compile(r"(20[0-3]\d)\s*年")
+_TEXT_REIWA = re.compile(r"令和\s*(\d{1,2}|元)\s*年")
+
+
+def chunk_year(c: Chunk):
+    """URLと本文の先頭から、そのチャンクの年を推定する（一番新しい年を採用）。見つからなければ None。"""
+    years = [int(y) for y in _URL_YEAR.findall(c.source)]
+    years += [2018 + int(n) for n in _URL_REIWA.findall(c.source)]
+    head = c.text[:300]
+    years += [int(y) for y in _TEXT_YEAR.findall(head)]
+    years += [2018 + (1 if n == "元" else int(n)) for n in _TEXT_REIWA.findall(head)]
+    years = [y for y in years if 1990 <= y <= CURRENT_YEAR + 2]
+    return max(years) if years else None
+
+
+def recency_weight(c: Chunk) -> float:
+    """古いチャンクほど小さい倍率。手作りデータと年の分からないチャンクは 1.0。"""
+    if c.type in PRIORITY_TYPES:
+        return 1.0
+    y = chunk_year(c)
+    if y is None:
+        return 1.0
+    age = min(max(CURRENT_YEAR - y, 0), MAX_AGE)
+    return RECENCY_DECAY ** age
 
 
 def char_bigrams(text: str) -> list:
@@ -64,6 +96,7 @@ class Retriever:
         self.prio_ids = [i for i, c in enumerate(self.chunks) if c.type in PRIORITY_TYPES]
         self.prio_vecs = (np.stack([self.index.reconstruct(i) for i in self.prio_ids])
                           if self.prio_ids else None)
+        self.recency = np.array([recency_weight(c) for c in self.chunks], dtype="float32")
         self.bm25 = None
         if CFG.use_bm25:
             from rank_bm25 import BM25Okapi
@@ -78,7 +111,7 @@ class Retriever:
 
     def _expand(self, i: int) -> Chunk:
         """同じページの前後のチャンクをつなげて、途中で切れた一覧などを補う。"""
-        if EXPAND_NEIGHBORS <= 0:
+        if EXPAND_NEIGHBORS <= 0 or self.chunks[i].type in PRIORITY_TYPES:   # 手作りデータは1件で完結
             return self.chunks[i]
         src = self.chunks[i].source
         lo = i
@@ -104,28 +137,31 @@ class Retriever:
         dense_rank = list(dense)
 
         if self.bm25 is None:
-            order = dense_rank
+            base = dict(dense)
         else:   # Reciprocal Rank Fusion でベクトル順位とキーワード順位を統合
             scores = self.bm25.get_scores(char_bigrams(query))
             sparse_rank = [int(i) for i in np.argsort(-scores)[:pool]]
-            fused = {}
+            base = {}
             for rank_list in (dense_rank, sparse_rank):
                 for r, i in enumerate(rank_list):
-                    fused[i] = fused.get(i, 0.0) + 1.0 / (60 + r)
-            order = sorted(fused, key=fused.get, reverse=True)
+                    base[i] = base.get(i, 0.0) + 1.0 / (60 + r)
+        # 古い情報ほど点数を下げて並べ直す（消すわけではない）
+        order = sorted(base, key=lambda i: base[i] * self.recency[i], reverse=True)
 
         # 手作りデータで十分近いものがあれば、先頭に入れて必ず資料に含める
         if self.prio_vecs is not None and dense:
             s = self.prio_vecs @ q[0]
-            j = int(np.argmax(s))
-            if s[j] >= max(dense.values()) - PRIORITY_MARGIN:
-                best = self.prio_ids[j]
-                dense[best] = float(s[j])
-                order = [best] + [i for i in order if i != best]
+            line = max(dense.values()) - PRIORITY_MARGIN
+            best = [int(j) for j in np.argsort(-s)[:PRIORITY_TOP] if s[j] >= line]
+            picked = [self.prio_ids[j] for j in best]
+            for j in best:
+                dense[self.prio_ids[j]] = float(s[j])
+            order = picked + [i for i in order if i not in picked]
 
         out, per_source = [], {}
         for i in order:
-            src = self.chunks[i].source
+            c = self.chunks[i]
+            src = c.id if c.type in PRIORITY_TYPES else c.source   # 手作りデータは1件ずつ別扱い
             if per_source.get(src, 0) >= MAX_PER_SOURCE:   # 同じページばかりで枠を埋めない
                 continue
             per_source[src] = per_source.get(src, 0) + 1
