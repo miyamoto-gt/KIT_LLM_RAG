@@ -10,12 +10,13 @@
   元のファイルは data/index/backup/ に残す。
 """
 import argparse
+import json
 import os
 import shutil
 
 from config import CFG
 from index import Embedder
-from schema import load_chunks, save_chunks
+from schema import Chunk, load_chunks, save_chunks
 
 # faiss は埋め込みの計算が終わってから読み込む。
 # Mac では faiss と torch の並列計算部品（OpenMP）がぶつかり、計算中に落ちることがあるため。
@@ -31,14 +32,19 @@ def main(paths: list, replace_sources: bool = False, exclude: list = ()) -> None
 
     new = []
     for p in paths:
-        new.extend(load_chunks(p))
+        with open(p, encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                d = json.loads(line)
+                c = Chunk.from_dict(d)
+                if "type" not in d:          # 種類が書かれていない＝手作りデータ（キャンパスマップ・事実データ）
+                    c.type = "manual" if not c.source == "キャンパスマップ" else "map"
+                new.append(c)
     if exclude:
         before = len(new)
         new = [c for c in new if not any(x in c.source for x in exclude)]
         print(f"除外指定により {before - len(new)} チャンクを追加しません")
-    for c in new:
-        if c.type == "web":
-            c.type = "manual"
     new_ids = {c.id for c in new}
     new_sources = {c.source for c in new} if replace_sources else set()
 

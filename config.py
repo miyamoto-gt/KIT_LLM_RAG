@@ -36,6 +36,11 @@ class Config:
     # ---- ⑦ 生成 ----
     llm_model: str = "sbintuitions/sarashina2.2-3b"
     max_new_tokens: dict = field(default_factory=lambda: {"fact": 48, "calc": 48, "explain": 200})
+    #---- ⑧ 評価 ----
+    extra_chunk_files: list = field(default_factory=lambda: [
+    "data/kit_campus_map.jsonl",
+    "data/kit_facts.jsonl",
+])
 
 
 CFG = Config()
