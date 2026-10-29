@@ -7,7 +7,7 @@
 
 ##アーキテクチャー
 
-<img width="500" height="500" alt="Image" src="https://github.com/user-attachments/assets/9a32e13c-4a85-4674-89ce-f049a9879694" />
+<img width="500" height="500" alt="Image" src="https://github.com/user-attachments/assets/6e6814c5-5bd9-4d3b-89d1-1b8e1d2ed570" />
 
 ## 全体の流れ
 
