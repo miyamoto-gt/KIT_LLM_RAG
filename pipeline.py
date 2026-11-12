@@ -11,6 +11,7 @@ from index import Retriever
 from prompts import build_calc_answer_prompt, build_prompt
 from router import classify
 from tools import run_calc_tags
+from postfix import cut_english
 
 STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）")
 LIST_ITEM = re.compile(r"\n\s*(?:[-・*●◆]|\d+\s*[.．)）、])\s*")
@@ -21,7 +22,7 @@ def postprocess(text: str, qtype: str) -> str:
     for m in STOP_MARKERS:                       # 次の質問を書き始める等の暴走を切る
         if m in text:
             text = text.split(m)[0]
-    text = text.strip()
+    text = cut_english(text.strip())             # 途中から英語に切り替わったら、その手前の「。」で切る
     if qtype in ("fact", "calc"):
         text = text.split("\n\n")[0]
         lines = [l for l in text.splitlines() if l.strip()]
@@ -93,7 +94,43 @@ class RAGPipeline:
         }
 
 
+def show(r: dict, show_raw: bool = False) -> None:
+    """結果を見やすく表示する。"""
+    print("\n" + "─" * 60)
+    print(f"質問　：{r['question']}")
+    print(f"回答　：{r['answer'] or '（回答なし）'}")
+    score = f"{r['top_score']:.3f}" if r.get("top_score") is not None else "-"
+    print(f"種類　：{r['qtype']}　　類似度：{score}")
+    print("根拠　：")
+    seen = []
+    for s in r.get("sources", []):
+        if s not in seen:
+            seen.append(s)
+            print(f"  {len(seen)}. {s}")
+    if show_raw:
+        print("生出力：")
+        print("  " + r.get("raw", "").strip().replace("\n", "\n  ")[:500])
+    print("─" * 60)
+
+
 if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(description="質問に答える（質問を省略すると対話モード）")
+    ap.add_argument("questions", nargs="*", help="質問文（複数可）")
+    ap.add_argument("--raw", action="store_true", help="モデルの生の出力も表示する")
+    a = ap.parse_args()
+
     rag = RAGPipeline()
-    for q in sys.argv[1:] or ["図書館は何号館にありますか？"]:
-        print(rag.answer(q))
+    if a.questions:
+        for q in a.questions:
+            show(rag.answer(q), a.raw)
+    else:                                        # 対話モード：空行か Ctrl+C で終了
+        print("質問を入力してください（空行で終了）")
+        try:
+            while True:
+                q = input("\n> ").strip()
+                if not q:
+                    break
+                show(rag.answer(q), a.raw)
+        except (KeyboardInterrupt, EOFError):
+            pass
