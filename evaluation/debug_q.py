@@ -1,5 +1,5 @@
 """指定した質問IDについて、検索結果・プロンプト全文・生成結果を表示する。
-使い方: python debug_q.py q006
+使い方: python -m evaluation.debug_q q006
 """
 import sys
 import csv
@@ -11,7 +11,7 @@ from prompts import build_prompt
 from config import CFG
 
 qid = sys.argv[1]
-with open("questions-2.csv", encoding="utf-8-sig") as f:
+with open("evaluation/sets/questions-2.csv", encoding="utf-8-sig") as f:
     question = next(r["question"] for r in csv.DictReader(f) if r["question_id"] == qid)
 
 p = RAGPipeline()

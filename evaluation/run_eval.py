@@ -2,8 +2,8 @@
 
 ※ 採点APIの形式が未確定なので、キー名とURLは TODO。形式が分かったらここだけ直す。
 使い方:
-  python run_eval.py questions.json            # ローカルのJSONで実行
-  python run_eval.py https://.../questions     # APIから取得して実行
+  python -m evaluation.run_eval evaluation/sets/questions.json            # ローカルのJSONで実行
+  python -m evaluation.run_eval https://.../questions     # APIから取得して実行
 """
 import json
 import sys
@@ -36,12 +36,12 @@ def main(src: str) -> None:
         log.append({**r, "sec": round(time.time() - t, 2)})
         print(f"[{i}] ({r['qtype']}) {r['question']} -> {r['answer']}")
 
-    json.dump(results, open("answers.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    json.dump(log, open("answers_log.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print("saved answers.json / answers_log.json")
+    json.dump(results, open("outputs/answers.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    json.dump(log, open("outputs/answers_log.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    print("saved outputs/answers.json / outputs/answers_log.json")
     if SUBMIT_URL:
         print(requests.post(SUBMIT_URL, json=results, timeout=60).text)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "questions.json")
+    main(sys.argv[1] if len(sys.argv) > 1 else "evaluation/sets/questions.json")

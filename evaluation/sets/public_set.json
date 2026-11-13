@@ -1,0 +1,731 @@
+[
+ {
+  "id": "q004",
+  "category": "P_事実",
+  "question": "開学時に設置された学部は何ですか？",
+  "expect": [
+   [
+    "工学部"
+   ]
+  ],
+  "evidence": [
+   [
+    "1965"
+   ],
+   [
+    "開学"
+   ],
+   [
+    "工学部"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/enkaku.html"
+ },
+ {
+  "id": "q006",
+  "category": "P_年度",
+  "question": "工学部に経営工学科が設置された年はいつですか？",
+  "expect": [
+   [
+    "1966",
+    "昭和41"
+   ]
+  ],
+  "evidence": [
+   [
+    "経営工学科設置"
+   ],
+   [
+    "1966"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/enkaku.html"
+ },
+ {
+  "id": "q007",
+  "category": "P_年度",
+  "question": "工学部に土木工学科が設置された年はいつですか？",
+  "expect": [
+   [
+    "1967",
+    "昭和42"
+   ]
+  ],
+  "evidence": [
+   [
+    "土木工学科設置"
+   ],
+   [
+    "1967"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/enkaku.html"
+ },
+ {
+  "id": "q008",
+  "category": "P_数値",
+  "question": "金沢工業大学の建学綱領には、旗標がいくつありますか？",
+  "expect": [
+   [
+    "3つ",
+    "三つ",
+    "三大",
+    "3個"
+   ]
+  ],
+  "evidence": [
+   [
+    "三大"
+   ],
+   [
+    "旗標"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/kengaku_koryo.html"
+ },
+ {
+  "id": "q012",
+  "category": "P_事実",
+  "question": "KITの教育実践目標として掲げられている人材像は何ですか？",
+  "expect": [
+   [
+    "自ら考え行動する"
+   ]
+  ],
+  "evidence": [
+   [
+    "教育実践目標"
+   ],
+   [
+    "自ら考え行動する"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/kaikaku_ayumi.html"
+ },
+ {
+  "id": "q016",
+  "category": "P_事実",
+  "question": "3年次の「専門ゼミ」は、4年次のどの科目に向けた準備期間ですか？",
+  "expect": [
+   [
+    "プロジェクトデザインⅢ",
+    "プロジェクトデザイン3",
+    "卒業研究"
+   ]
+  ],
+  "evidence": [
+   [
+    "専門ゼミ"
+   ],
+   [
+    "プロジェクトデザインⅢ"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/kyoiku/pd/"
+ },
+ {
+  "id": "q023",
+  "category": "P_数値",
+  "question": "2027年度入試ガイドに掲載された学部はいくつですか？",
+  "expect": [
+   [
+    "6学部",
+    "6つ",
+    "六つ",
+    "6の学部"
+   ]
+  ],
+  "evidence": [
+   [
+    "情報デザイン学部"
+   ],
+   [
+    "建築学部"
+   ],
+   [
+    "募集人員"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+  "note": "情報デザイン・メディア情報・情報理工・バイオ・化学・工・建築の6学部"
+ },
+ {
+  "id": "q026",
+  "category": "P_列挙",
+  "question": "入試制度一覧にある、大学入学共通テストを利用する試験を2つ挙げてください。",
+  "expect": [
+   [
+    "共通テスト利用A"
+   ],
+   [
+    "共通テスト利用B"
+   ]
+  ],
+  "evidence": [
+   [
+    "共通テスト利用A"
+   ],
+   [
+    "共通テスト利用B"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+  "note": "「一般試験前期・共通テストプラス」を挙げても正解になりうる。その場合は目視で判定"
+ },
+ {
+  "id": "q027",
+  "category": "P_数値",
+  "question": "2027年度の総合型選抜（課外活動型）で、試験当日に行う面談は1人あたり何分ですか？",
+  "expect": [
+   [
+    "15分"
+   ]
+  ],
+  "evidence": [
+   [
+    "面談"
+   ],
+   [
+    "15分"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf"
+ },
+ {
+  "id": "q031",
+  "category": "P_数値",
+  "question": "2026年3月の学部卒業生の就職内定率は何％ですか？",
+  "expect": [
+   [
+    "99.9"
+   ]
+  ],
+  "evidence": [
+   [
+    "2026年3月"
+   ],
+   [
+    "就職内定率"
+   ],
+   [
+    "99.9"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/shushoku/jisseki.html"
+ },
+ {
+  "id": "q034",
+  "category": "P_事実",
+  "question": "金沢工業大学と鹿島建設株式会社の共創拠点の名称は何ですか？",
+  "expect": [
+   [
+    "KAJIMA3DPrintingLab",
+    "3DPrintingLab",
+    "KIT×KAJIMA"
+   ]
+  ],
+  "evidence": [
+   [
+    "KAJIMA"
+   ],
+   [
+    "共創拠点"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/kenkyu/kenkyu_center.html"
+ },
+ {
+  "id": "q036",
+  "category": "P_事実",
+  "question": "KITの留学プログラムに応じた支援金を支給する同窓会は何ですか？",
+  "expect": [
+   [
+    "こぶし会"
+   ]
+  ],
+  "evidence": [
+   [
+    "こぶし会"
+   ],
+   [
+    "支援金"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/international/long.html"
+ },
+ {
+  "id": "q046",
+  "category": "P_事実",
+  "question": "2026年度の機械工学科は、どの学部に所属しますか？",
+  "expect": [
+   [
+    "工学部"
+   ]
+  ],
+  "evidence": [
+   [
+    "機械工学科"
+   ],
+   [
+    "工学部"
+   ],
+   [
+    "2026"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q048",
+  "category": "P_事実",
+  "question": "2026年度の電気エネルギーシステム工学科は、どの学部に所属しますか？",
+  "expect": [
+   [
+    "工学部"
+   ]
+  ],
+  "evidence": [
+   [
+    "電気エネルギーシステム工学科"
+   ],
+   [
+    "工学部"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q052",
+  "category": "P_列挙",
+  "question": "2026年度の工学部にある学科をすべて挙げてください。",
+  "expect": [
+   [
+    "機械工学科"
+   ],
+   [
+    "先進機械システム"
+   ],
+   [
+    "航空宇宙"
+   ],
+   [
+    "電気エネルギーシステム"
+   ],
+   [
+    "電子情報システム"
+   ],
+   [
+    "環境土木"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q055",
+  "category": "P_列挙",
+  "question": "2026年度の情報理工学部にある3学科を挙げてください。",
+  "expect": [
+   [
+    "情報工学科"
+   ],
+   [
+    "知能情報システム"
+   ],
+   [
+    "ロボティクス"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q056",
+  "category": "P_列挙",
+  "question": "2026年度のバイオ・化学部にある2学科を挙げてください。",
+  "expect": [
+   [
+    "環境・応用化学"
+   ],
+   [
+    "生命・応用バイオ"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q057",
+  "category": "P_列挙",
+  "question": "2026年度の建築学部にある2学科を挙げてください。",
+  "expect": [
+   [
+    "建築学科"
+   ],
+   [
+    "建築デザイン学科"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/result2026_detail.pdf"
+ },
+ {
+  "id": "q061",
+  "category": "P_列挙",
+  "question": "2027年度入試で、Uターン型奨学生選抜の試験地の例を2つ挙げてください。",
+  "expect": [
+   [
+    "金沢",
+    "仙台",
+    "東京",
+    "新潟",
+    "富山",
+    "福井",
+    "長野",
+    "名古屋",
+    "大阪",
+    "岡山",
+    "福岡"
+   ]
+  ],
+  "evidence": [
+   [
+    "Uターン型奨学生"
+   ],
+   [
+    "試験地"
+   ],
+   [
+    "仙台"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+  "note": "自動判定は1つ当たれば正解になる。2つ挙げているかは目視で確認"
+ },
+ {
+  "id": "q063",
+  "category": "P_列挙",
+  "question": "入試制度一覧で「一般試験前期」に組み合わせる共通テストプラスの区分を2つ挙げてください。",
+  "expect": [
+   [
+    "大学院進学奨学生"
+   ],
+   [
+    "科目高得点型"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf"
+ },
+ {
+  "id": "q068",
+  "category": "P_数値",
+  "question": "2026年3月学部卒業生のうち、上場企業・大手企業・公務員・教員への就職割合は何％ですか？",
+  "expect": [],
+  "evidence": [
+   [
+    "上場"
+   ],
+   [
+    "公務員"
+   ],
+   [
+    "教員"
+   ],
+   [
+    "2026年3月"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/shushoku/jisseki.html",
+  "note": "索引の中で割合の数値が見つからなかった（データ不足の可能性）。正解がわかれば expect に入れる"
+ },
+ {
+  "id": "q071",
+  "category": "P_複合",
+  "question": "2025年度の語学研修（協定校派遣型）の留学先と、夏季・春季の期間を答えてください。",
+  "expect": [
+   [
+    "レスター"
+   ],
+   [
+    "3週間"
+   ],
+   [
+    "4週間"
+   ]
+  ],
+  "evidence": [
+   [
+    "協定校派遣型"
+   ],
+   [
+    "レスター"
+   ],
+   [
+    "4週間"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/international/record.html"
+ },
+ {
+  "id": "q075",
+  "category": "P_事実",
+  "question": "CAMPUS GUIDE 2026で、数学・物理・化学の学習相談に対応するセンターはどこにありますか？",
+  "expect": [
+   [
+    "数理工"
+   ],
+   [
+    "23号館"
+   ]
+  ],
+  "evidence": [
+   [
+    "数理工教育研究センター"
+   ],
+   [
+    "23号館4・5階"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_3.html",
+  "note": "「4・5階」まで答えているかは目視で確認"
+ },
+ {
+  "id": "q078",
+  "category": "P_照合",
+  "question": "沿革と教育改革の歩みを照合し、1982年・1993年・1995年にそれぞれ関係する施設・教育上の出来事を答えてください。",
+  "expect": [
+   [
+    "ライブラリーセンター",
+    "図書情報"
+   ],
+   [
+    "夢考房",
+    "工学専門実技"
+   ],
+   [
+    "工学設計教育",
+    "教育改革",
+    "プロジェクト教育センター"
+   ]
+  ],
+  "evidence": [
+   [
+    "1982"
+   ],
+   [
+    "1993"
+   ],
+   [
+    "1995"
+   ],
+   [
+    "夢考房"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/about_kit/kaikaku_ayumi.html",
+  "note": "根拠は enkaku.html と kaikaku_ayumi.html の2ページにまたがる"
+ },
+ {
+  "id": "q080",
+  "category": "P_列挙",
+  "question": "プロジェクトデザイン教育の6段階を、問題発見から解決策検証まで順番に答えてください。",
+  "expect": [
+   [
+    "明確化"
+   ],
+   [
+    "創出"
+   ],
+   [
+    "評価"
+   ],
+   [
+    "具体化"
+   ]
+  ],
+  "evidence": [
+   [
+    "問題の発見"
+   ],
+   [
+    "明確化"
+   ],
+   [
+    "評価・選定"
+   ],
+   [
+    "解決策の検証"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/kyoiku/pd/",
+  "note": "正解の順：問題の発見→問題の明確化→アイディアの創出→アイディアの評価・選定→アイディアの具体化→解決策の検証。順番は目視で確認"
+ },
+ {
+  "id": "q082",
+  "category": "P_説明",
+  "question": "プロジェクトデザインⅡで地域課題に取り組むとき、課題提供元の自治体と学生の活動をまとめてください。",
+  "expect": [
+   [
+    "野々市"
+   ],
+   [
+    "金沢市"
+   ],
+   [
+    "提案",
+    "解決策"
+   ]
+  ],
+  "evidence": [
+   [
+    "プロジェクトデザインⅡ"
+   ],
+   [
+    "野々市市"
+   ],
+   [
+    "自治体"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/kyoiku/pd/"
+ },
+ {
+  "id": "q086",
+  "category": "P_計算",
+  "question": "2027年度の学部募集人員合計と、情報系3学部の募集人員（情報デザイン100、メディア情報200、情報理工320）を合算した人数を答えてください。",
+  "expect": [
+   [
+    "1480"
+   ],
+   [
+    "620"
+   ]
+  ],
+  "evidence": [
+   [
+    "1,480"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+  "note": "合計1,480名と、情報系3学部の合計620名"
+ },
+ {
+  "id": "q088",
+  "category": "P_説明",
+  "question": "2027年度の総合型選抜（専願型）では、エントリーシートで何を結び付けて志望理由を説明するよう求めていますか？",
+  "expect": [
+   [
+    "教育"
+   ],
+   [
+    "研究"
+   ],
+   [
+    "施設"
+   ]
+  ],
+  "evidence": [
+   [
+    "志望学科を選択した"
+   ],
+   [
+    "施設等と関連づけて"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/nyusi/pdf/guide_2027.pdf",
+  "note": "志望学科を選んだ理由を、金沢工業大学の教育や研究の分野、施設等と関連づける"
+ },
+ {
+  "id": "q094",
+  "category": "P_説明",
+  "question": "金沢歴史都市建築研究所が扱う金沢の歴史資源と、現代技術を用いた取組を答えてください。",
+  "expect": [
+   [
+    "街路",
+    "景観",
+    "庭園",
+    "城下町",
+    "歴史的"
+   ],
+   [
+    "AR",
+    "拡張現実",
+    "ICT"
+   ]
+  ],
+  "evidence": [
+   [
+    "金沢歴史都市建築研究所"
+   ],
+   [
+    "AR"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/kenkyu/kenkyu_center.html"
+ },
+ {
+  "id": "q095",
+  "category": "P_説明",
+  "question": "扇が丘・やつかほ・白山麓の3キャンパスを、それぞれの役割と合わせて区別してください。",
+  "expect": [
+   [
+    "メイン",
+    "課外活動"
+   ],
+   [
+    "研究所群",
+    "実験設備",
+    "研究室"
+   ],
+   [
+    "里山",
+    "実証実験",
+    "高等専門学校",
+    "高専"
+   ]
+  ],
+  "evidence": [
+   [
+    "やつかほリサーチキャンパス"
+   ],
+   [
+    "白山麓キャンパス"
+   ],
+   [
+    "里山"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/campus_guide/2026/campus_map/"
+ },
+ {
+  "id": "q098",
+  "category": "P_複合",
+  "question": "学生ステーションと国際教育交流センターは何号館の何階にあり、それぞれどんな支援を提供しますか？",
+  "expect": [
+   [
+    "23号館"
+   ],
+   [
+    "1階",
+    "1F"
+   ],
+   [
+    "2階",
+    "2F"
+   ],
+   [
+    "相談",
+    "交流",
+    "ポスター"
+   ],
+   [
+    "留学"
+   ]
+  ],
+  "evidence": [
+   [
+    "学生ステーション"
+   ],
+   [
+    "国際教育交流センター23号館2階"
+   ]
+  ],
+  "source": "https://www.kanazawa-it.ac.jp/campus_guide/2026/chapter_5/list_1/page_3.html"
+ }
+]

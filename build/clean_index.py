@@ -1,6 +1,6 @@
 """作成済みの索引から、文字化けしたチャンクだけを取り除く（埋め込みのやり直し不要）。
 
-使い方:  python clean_index.py
+使い方:  python -m build.clean_index
   data/index/faiss.index と data/index/chunks.jsonl を上書きする。
   元のファイルは data/index/backup/ に残す。
 """
@@ -10,7 +10,7 @@ import shutil
 import faiss
 
 from config import CFG
-from preprocess import is_readable
+from build.preprocess import is_readable
 from schema import load_chunks, save_chunks
 
 

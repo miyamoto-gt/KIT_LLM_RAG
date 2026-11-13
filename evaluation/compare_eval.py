@@ -1,7 +1,7 @@
 """evaluate.py の出力2つ（before / after）を比べて、正誤が変わった問題だけを表示する。
 
 使い方:
-    python compare_eval.py eval_before.txt eval_after.txt
+    python -m evaluation.compare_eval outputs/eval_before.txt outputs/eval_after.txt
 """
 import re
 import sys

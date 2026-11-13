@@ -10,13 +10,16 @@ class Config:
     max_depth: int = 3                           # トップページからのリンク深さ
     max_pages: int = 1500                        # 取得ページ数の上限
     crawl_delay: float = 1.0                     # アクセス間隔（秒）。学校サーバーへの配慮
-
+    
     # ---- ②③ 前処理・チャンク化 ----
     raw_dir: str = "data/raw"
     chunks_path: str = "data/chunks.jsonl"
-    extra_chunk_files: list = field(default_factory=lambda: ["data/kit_campus_map.jsonl"])  # 手作りデータ
     chunk_size: int = 500
     chunk_overlap: int = 100
+    extra_chunk_files: list = field(default_factory=lambda: [
+        "data/kit_campus_map.jsonl",
+        "data/kit_facts.jsonl",
+    ])
 
     # ---- ④ ベクトル索引 ----
     index_dir: str = "data/index"
@@ -28,6 +31,7 @@ class Config:
     # ---- ⑥ 検索 ----
     top_k: int = 4                                # プロンプトに入れるチャンク数
     low_score: float = 0.80                       # これ未満なら「検索が外れた」とみなす（要調整）
+    max_per_source: int = 2                      
 
     # ---- Web補完（回答時にネット接続が許される場合のみ True） ----
     web_fallback: bool = False
@@ -37,10 +41,7 @@ class Config:
     llm_model: str = "sbintuitions/sarashina2.2-3b"
     max_new_tokens: dict = field(default_factory=lambda: {"fact": 48, "calc": 48, "explain": 200})
     #---- ⑧ 評価 ----
-    extra_chunk_files: list = field(default_factory=lambda: [
-    "data/kit_campus_map.jsonl",
-    "data/kit_facts.jsonl",
-])
+    
 
 
 CFG = Config()

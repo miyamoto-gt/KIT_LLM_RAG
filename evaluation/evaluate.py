@@ -1,9 +1,9 @@
 """評価セットで全問を解き、キーワード一致で自動採点する（外部API不要）。
 
 使い方:
-  python evaluate.py                      # eval_set.json の全問
-  python evaluate.py --category C_図書館フロア
-  python evaluate.py --ids A01 C01 F03
+  python -m evaluation.evaluate          # evaluation/sets/eval_set.json の全問
+  python -m evaluation.evaluate --category C_図書館フロア
+  python -m evaluation.evaluate --ids A01 C01 F03
 
 判定:
   expect : [[A, B], [C]] のような「グループのリスト」。各グループのどれか1つが答えに含まれれば、そのグループは合格。
@@ -12,8 +12,8 @@
   比較の前に、全角半角・空白・数字のカンマ・「円」をそろえる。
 結果:
   最後に分野別と全体の正解率を表示する。
-  eval_report.json      … 全問の答え・判定・根拠URL
-  eval_failures.jsonl   … 間違えた問題だけ（1行1問。直したら --ids で解き直せる）
+  outputs/eval_report.json      … 全問の答え・判定・根拠URL
+  outputs/eval_failures.jsonl   … 間違えた問題だけ（1行1問。直したら --ids で解き直せる）
 """
 import argparse
 import json
@@ -119,9 +119,9 @@ def main(path: str, category: str = None, ids: list = None) -> None:
         total_ok += ok
         total_n += n
         print(f"{cat:20s} {ok:3d} / {n:3d}  ({ok / n:.0%})")
-    json.dump(report, open("eval_report.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    json.dump(report, open("outputs/eval_report.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     failures = [r for r in report if r["verdict"] == "fail"]
-    with open("eval_failures.jsonl", "w", encoding="utf-8") as f:
+    with open("outputs/eval_failures.jsonl", "w", encoding="utf-8") as f:
         for r in failures:
             f.write(json.dumps({k: r.get(k) for k in ("id", "category", "question", "answer", "detail",
                                                        "expect", "forbid", "qtype", "sources", "error")},
@@ -130,15 +130,15 @@ def main(path: str, category: str = None, ids: list = None) -> None:
     if total_n:
         print(f"正解率: {total_ok} / {total_n} = {total_ok / total_n:.1%}")
     n_err = sum(r["qtype"] == "error" for r in report)
-    print(f"間違えた問題: {len(failures)} 問 → eval_failures.jsonl（うちエラー {n_err} 問）")
-    print(f"全問の詳細: eval_report.json")
+    print(f"間違えた問題: {len(failures)} 問 → outputs/eval_failures.jsonl（うちエラー {n_err} 問）")
+    print(f"全問の詳細: outputs/eval_report.json")
     if failures:
-        print("解き直す: python evaluate.py --ids " + " ".join(r["id"] for r in failures))
+        print("解き直す: python -m evaluation.evaluate --ids " + " ".join(r["id"] for r in failures))
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--set", default="eval_set.json")
+    ap.add_argument("--set", default="evaluation/sets/eval_set.json")
     ap.add_argument("--category")
     ap.add_argument("--ids", nargs="*")
     a = ap.parse_args()

@@ -3,8 +3,8 @@
 使い方:
   1) Googleドライブの kit_rag_data/chunks.jsonl（文字化けを除く前の元データ）を
      data/chunks_original.jsonl としてダウンロードしておく
-  2) python reextract_pdfs.py data/chunks_original.jsonl
-  3) python add_chunks.py data/pdf_fixed.jsonl      ← 読めた分を索引に追加
+  2) python -m build.reextract_pdfs data/chunks_original.jsonl
+  3) python -m build.add_chunks data/pdf_fixed.jsonl      ← 読めた分を索引に追加
 
 結果:
   data/pdf_fixed.jsonl   … 読み直せたPDFのチャンク
@@ -13,9 +13,9 @@
 import sys
 import time
 
-from crawl import fetch, make_session
+from build.crawl import fetch, make_session
 from config import CFG
-from preprocess import is_readable, make_chunks
+from build.preprocess import is_readable, make_chunks
 from schema import load_chunks, save_chunks
 
 
@@ -72,5 +72,5 @@ def main(original_path: str) -> None:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        sys.exit("使い方: python reextract_pdfs.py data/chunks_original.jsonl")
+        sys.exit("使い方: python -m build.reextract_pdfs data/chunks_original.jsonl")
     main(sys.argv[1])

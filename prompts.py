@@ -45,12 +45,23 @@ EXPLAIN_EXAMPLES = """資料:
 質問: 23号館にはどのような施設がありますか？
 答え: 23号館には、1階に学生ステーションとCDIOイノベーション＆デザインスタジオがあります。2階には留学支援・国際交流センター、2〜3階に基礎英語教育センター、4〜5階に数理工教育研究センターがあります。
 
+資料:
+[1] 【扇が丘キャンパス／27号館】 施設と階： ・学生ラウンジ（1F） ・コンビニエンスストア（2F）
+[2] 【扇が丘キャンパス／シャトルバス発着所】 やつかほリサーチキャンパス行きのシャトルバスは、23号館と24号館の間から発着する。
+質問: 学生ラウンジとシャトルバス発着所はそれぞれどこにありますか？
+答え: 学生ラウンジは27号館の1階です。シャトルバス発着所は23号館と24号館の間で、やつかほリサーチキャンパス行きのバスが発着します。
+
 """
 
 CALC_EXAMPLES = """資料:
 [1] 【学費の例】 前期授業料 750,000円、後期授業料 750,000円
 質問: 前期と後期の授業料の合計はいくらですか？
 計算式: <calc>750000 + 750000</calc>
+
+資料:
+[1] 【学費の例】 前期授業料 750,000円、後期授業料 750,000円、入学金 200,000円
+質問: 1年間の授業料の合計と、入学金を含めた合計はそれぞれいくらですか？
+計算式: <calc>750000 + 750000</calc> <calc>750000 + 750000 + 200000</calc>
 
 """
 
@@ -138,6 +149,11 @@ def build_prompt(question: str, hits: list, qtype: str) -> str:
     return HEADER + examples + f"資料:\n{ctx}\n質問: {question}\n{tail}"
 
 
-def build_calc_answer_prompt(question: str, hits: list, expr: str, value) -> str:
-    return (HEADER + FACT_EXAMPLES
-            + f"資料:\n{format_context(hits)}\n[計算] {expr} = {value}\n質問: {question}\n答え:")
+def build_calc_answer_prompt(question: str, hits: list, expr, value=None, multi: bool = False) -> str:
+    """計算結果を添えて答えさせる。expr に [(式, 結果), ...] を渡すと複数の計算結果を並べる。
+    multi=True（答えの部分が複数ある質問）では、説明型のお手本で複数文の答えを書かせる。
+    「資料で調べる値」と「計算する値」が混ざった質問で、調べる値まで答えに残すため。"""
+    pairs = expr if isinstance(expr, list) else [(expr, value)]
+    calc_lines = "\n".join(f"[計算] {e} = {v}" for e, v in pairs)
+    return (HEADER + (EXPLAIN_EXAMPLES if multi else FACT_EXAMPLES)
+            + f"資料:\n{format_context(hits)}\n{calc_lines}\n質問: {question}\n答え:")

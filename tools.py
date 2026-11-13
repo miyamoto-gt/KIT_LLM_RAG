@@ -26,6 +26,21 @@ def safe_calc(expr: str):
     return int(value) if float(value).is_integer() else round(value, 4)
 
 
+def run_calc_all(text: str, limit: int = 3) -> list:
+    """閉じた <calc>…</calc> をすべて計算して [(式, 結果)] を返す（最大 limit 個）。
+    閉じたタグが無ければ run_calc_tags と同じく最初の1つを試す。"""
+    out = []
+    for expr in re.findall(r"<calc>(.*?)</calc>", text, re.S)[:limit]:
+        try:
+            out.append((expr.strip(), safe_calc(expr)))
+        except Exception:
+            pass
+    if not out:
+        one = run_calc_tags(text)
+        out = [one] if one else []
+    return out
+
+
 def run_calc_tags(text: str):
     """最初の <calc>…</calc> を計算して (式, 結果) を返す。無ければ None。"""
     m = re.search(r"<calc>(.*?)(?:</calc>|$)", text, re.S | re.M)

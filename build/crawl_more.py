@@ -1,11 +1,11 @@
 """追加クロール：指定した分野のページから出発し、まだ索引に無いページだけをチャンクにする。
 
 使い方:
-  python crawl_more.py                         # 下の SEEDS から出発
-  python crawl_more.py URL1 URL2 ...           # 出発点を指定
-  python crawl_more.py --max-pages 200 --depth 2
+  python -m build.crawl_more                         # 下の SEEDS から出発
+  python -m build.crawl_more URL1 URL2 ...           # 出発点を指定
+  python -m build.crawl_more --max-pages 200 --depth 2
 その後:
-  python add_chunks.py data/more_chunks.jsonl --replace-sources --exclude mondai_
+  python -m build.add_chunks data/more_chunks.jsonl --replace-sources --exclude mondai_
 
 ・索引にあるページも、リンクをたどるためだけに読みに行く（保存はしない）
 ・取れないことが分かっているサブドメインは最初から飛ばす
@@ -18,8 +18,8 @@ from collections import deque
 from urllib.parse import urlparse
 
 from config import CFG
-from crawl import extract_links, fetch, make_session, normalize
-from preprocess import document_to_chunks
+from build.crawl import extract_links, fetch, make_session, normalize
+from build.preprocess import document_to_chunks
 from schema import load_chunks, save_chunks
 
 # 出題されそうな分野の入口（存在しないURLは自動で飛ばす。大学サイトのメニューを見て足してよい）

@@ -1,7 +1,7 @@
 """faiss 索引のベクトルを float32 → float16 にして、ファイルサイズを約半分にする。
 
 使い方（KIT_LLM_RAG の直下で）:
-    python shrink_index.py
+    python -m build.shrink_index
 
   - 元の索引は data/index/faiss_fp32.index として残す（戻すときはこれを faiss.index に戻す）
   - 変換後、ランダムな100件のベクトルで検索して、上位5件が元とどれだけ一致するかを表示する

@@ -1,8 +1,8 @@
 """手作りのチャンク（JSONL）だけを埋め込み、既存の索引に追加する（全体の作り直し不要）。
 
 使い方:
-  python add_chunks.py data/kit_facts.jsonl [ほかのファイル ...]
-  python add_chunks.py data/pdf_fixed.jsonl --replace-sources --exclude mondai_
+  python -m build.add_chunks data/kit_facts.jsonl [ほかのファイル ...]
+  python -m build.add_chunks data/pdf_fixed.jsonl --replace-sources --exclude mondai_
 
   同じ id のチャンクがすでにあれば、古いものを除いて入れ替える（内容を直して再実行してよい）。
   --replace-sources : 追加するチャンクと同じURLの古いチャンクをすべて消してから入れる（読み直したPDF用）

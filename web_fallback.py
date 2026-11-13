@@ -4,9 +4,9 @@
 回答時にネット接続が許される場合のみ CFG.web_fallback = True にする。
 """
 from config import CFG
-from crawl import extract_links, fetch, make_session
+from build.crawl import extract_links, fetch, make_session
 from index import char_bigrams
-from preprocess import document_to_chunks
+from build.preprocess import document_to_chunks
 
 
 def expand_from_hits(question: str, hits: list, known_urls: set) -> list:

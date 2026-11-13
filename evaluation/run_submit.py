@@ -2,11 +2,11 @@
 
 使い方:
   python submit.py questions                 # questions.csv を取得
-  python run_submit.py                       # → submission.csv
-  python run_submit.py questions.csv --limit 3   # 先頭3問だけ（速度テスト）
+  python -m evaluation.run_submit            # → outputs/submission.csv
+  python -m evaluation.run_submit evaluation/sets/questions.csv --limit 3   # 先頭3問だけ（速度テスト）
   python submit.py submit submission.csv --name "baseline"
 
-・1問ごとに answers_ckpt.jsonl へ追記するので、途中で止まっても再実行で続きから。
+・1問ごとに outputs/answers_ckpt.jsonl へ追記するので、途中で止まっても再実行で続きから。
 ・空欄は0点なので、失敗・空の答えは FALLBACK で埋める。
 ・改行はスペースにし、2000文字で切る。最後に形式チェックをする。
 """
@@ -18,7 +18,7 @@ import time
 
 ID_CANDIDATES = ("question_id", "id", "qid")
 Q_CANDIDATES = ("question", "text", "query", "質問")
-CKPT = "answers_ckpt.jsonl"
+CKPT = "outputs/answers_ckpt.jsonl"
 FALLBACK = "不明"
 MAX_LEN = 2000
 
@@ -83,8 +83,8 @@ def check(questions, out):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("questions", nargs="?", default="questions.csv")
-    ap.add_argument("--out", default="submission.csv")
+    ap.add_argument("questions", nargs="?", default="evaluation/sets/questions.csv")
+    ap.add_argument("--out", default="outputs/submission.csv")
     ap.add_argument("--limit", type=int, help="先頭N問だけ解く（速度テスト用）")
     ap.add_argument("--redo-fallback", action="store_true", help="「不明」になった問題だけ解き直す")
     args = ap.parse_args()
@@ -99,7 +99,7 @@ def main():
     print(f"回答済み {len(done)}問 / これから {len(todo)}問")
 
     if todo:
-        from evaluate import ask                            # 失敗時にメモリを片付けて1回やり直す
+        from evaluation.evaluate import ask                            # 失敗時にメモリを片付けて1回やり直す
         from pipeline import RAGPipeline
         rag = RAGPipeline()
         t0 = time.time()

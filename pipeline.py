@@ -9,15 +9,37 @@ from config import CFG
 from generator import Generator
 from index import Retriever
 from prompts import build_calc_answer_prompt, build_prompt
-from router import classify
-from tools import run_calc_tags
+from router import plan
+from tools import run_calc_all
 from postfix import cut_english
 
 STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）")
 LIST_ITEM = re.compile(r"\n\s*(?:[-・*●◆]|\d+\s*[.．)）、])\s*")
 
 
-def postprocess(text: str, qtype: str) -> str:
+def ensure_calc_values(answer: str, calcs: list) -> str:
+    """計算ツールで出した値が答えに書かれていなければ、末尾に（式 = 値）を添える。
+    モデルが値を書き写し忘れても、計算結果は必ず答えに残る。"""
+    def digits(s):
+        return re.sub(r"[,，\s円人名]", "", str(s))
+    missing = [(e, v) for e, v in calcs if digits(v) not in digits(answer)]
+    if not missing:
+        return answer
+    add = "、".join(f"{e} = {v}" for e, v in missing)
+    return f"{answer}（計算：{add}）" if answer else f"{add}"
+
+
+def calc_final(question: str, hits: list, calcs: list, p: dict):
+    """計算結果を添えて最終回答を書かせる設定。(プロンプト, 出力上限, 後処理の種類, 文数) を返す。
+    答えの部分が1つなら今までどおり1行。複数なら説明型で複数文（調べる値も答えに残す）。"""
+    multi = p["parts"] >= 2
+    prompt = build_calc_answer_prompt(question, hits, calcs, multi=multi)
+    if multi:
+        return prompt, 64 + 40 * p["parts"], "explain", max(2, p["parts"])
+    return prompt, CFG.max_new_tokens["fact"] + 32 * (len(calcs) - 1), "fact", 3
+
+
+def postprocess(text: str, qtype: str, max_sent: int = 3) -> str:
     text = text.strip()                          # 先頭の改行を先に取り除く
     for m in STOP_MARKERS:                       # 次の質問を書き始める等の暴走を切る
         if m in text:
@@ -49,8 +71,8 @@ def postprocess(text: str, qtype: str) -> str:
         if text and not text.endswith("。"):
             text += "。"
         sentences = re.findall(r"[^。]+。", text)
-        if sentences:                            # 説明は最初の3文まで
-            text = "".join(sentences[:3])
+        if sentences:                            # 説明は最初の max_sent 文まで（部分が多い質問ほど長く）
+            text = "".join(sentences[:max_sent])
     return text.strip()
 
 
@@ -71,24 +93,30 @@ class RAGPipeline:
         return hits
 
     def answer(self, question: str) -> dict:
-        qtype = classify(question)
+        p = plan(question)                       # 種類・部分の数・出力の上限
+        qtype = p["qtype"]
         hits = self.retrieve(question)
-        raw = self.generate(build_prompt(question, hits, qtype), CFG.max_new_tokens[qtype])
+        raw = self.generate(build_prompt(question, hits, qtype), p["max_new"])
 
+        calcs = []
         if qtype == "calc":
-            calc = run_calc_tags(raw)
-            if calc:
-                expr, value = calc
-                raw = self.generate(build_calc_answer_prompt(question, hits, expr, value),
-                                    CFG.max_new_tokens["fact"])
+            calcs = run_calc_all(raw, p["n_calc"])
+            if calcs:
+                prompt, max_new, post_type, post_sent = calc_final(question, hits, calcs, p)
+                raw = self.generate(prompt, max_new)
             else:                                # 式が作れなければ事実質問として答え直す
                 raw = self.generate(build_prompt(question, hits, "fact"), CFG.max_new_tokens["fact"])
 
+        if qtype == "calc" and calcs:
+            answer = ensure_calc_values(postprocess(raw, post_type, post_sent), calcs)
+        else:
+            answer = postprocess(raw, qtype, p["max_sent"])
         return {
             "question": question,
-            "answer": postprocess(raw, qtype),
+            "answer": answer,
             "raw": raw, 
             "qtype": qtype,
+            "parts": p["parts"],
             "sources": [c.source for c, _ in hits],
             "top_score": hits[0][1] if hits else None,
         }

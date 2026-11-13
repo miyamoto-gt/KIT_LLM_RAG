@@ -2,8 +2,8 @@
 
 金沢工業大学（KIT）に関する質問に、大学サイトの情報を検索（RAG）して `sbintuitions/sarashina2.2-3b` で答える。
 
-- 評価セット100問（`eval_set.json`）：**正解率 100%**
-- 手作りデータを入れていない分野の10問（`add_question.json`）：**正解率 90%**
+- 評価セット100問（`evaluation/sets/eval_set.json`）：**正解率 100%**
+- 手作りデータを入れていない分野の10問（`evaluation/sets/add_question.json`）：**正解率 90%**
 
 ##アーキテクチャー
 
@@ -13,13 +13,13 @@
 
 ```
 ━━━━━━ オフライン（索引づくり。済んでいれば不要） ━━━━━━
-crawl.py           大学サイトをリンクで巡回して HTML / PDF を保存（Colab で約1050ページ）
-preprocess.py      本文抽出（表は Markdown）→ 500字前後に分割 → 文字化けチャンクは除外
+build/crawl.py     大学サイトをリンクで巡回して HTML / PDF を保存（Colab で約1050ページ）
+build/preprocess.py 本文抽出（表は Markdown）→ 500字前後に分割 → 文字化けチャンクは除外
 index.py           ruri-v3 で埋め込み → FAISS 索引（data/index/）
-  ＋ clean_index.py      作成済みの索引から文字化けチャンクを除く
-  ＋ reextract_pdfs.py   化けていた PDF を PyMuPDF で読み直す
-  ＋ crawl_more.py       指定した分野の、まだ索引に無いページだけを追加で取得
-  ＋ add_chunks.py       上記や手作りデータを、全体を作り直さずに索引へ追加
+  ＋ build/clean_index.py      作成済みの索引から文字化けチャンクを除く
+  ＋ build/reextract_pdfs.py   化けていた PDF を PyMuPDF で読み直す
+  ＋ build/crawl_more.py       指定した分野の、まだ索引に無いページだけを追加で取得
+  ＋ build/add_chunks.py       上記や手作りデータを、全体を作り直さずに索引へ追加
 
 ━━━━━━ オンライン（質問ごと） ━━━━━━
 pipeline.py  answer(質問)
@@ -33,29 +33,46 @@ pipeline.py  answer(質問)
   postprocess    事実は1行、説明は最大3文（箇条書きは1文にまとめる）
 ```
 
+## フォルダ構成
+
+```
+KIT_LLM_RAG/
+├── main.py            # 提出の入口（直下固定。questions.csv → submission.csv）
+├── pipeline.py config.py schema.py router.py prompts.py postfix.py
+├── tools.py generator.py index.py web_fallback.py   # 回答時に使うモジュール（直下固定）
+├── build/             # 索引づくり（オフライン）
+├── evaluation/        # 評価・診断・ローカル実行。質問セットは evaluation/sets/
+├── data/              # 索引と手作りデータ（config.py が参照）
+├── outputs/           # 生成物（Git・zip に入れない）
+└── docs/
+```
+
+`build/` と `evaluation/` のスクリプトは、**すべて直下から `python -m` で実行する**（例：`python -m build.add_chunks ...`）。
+提出用 zip は `bash make_zip.sh` で `outputs/code.zip` に作る。
+
 ## ファイル
 
 | ファイル | 役割 |
 |---|---|
 | `config.py` | 設定（クロール範囲、チャンク長、モデル名、検索件数など） |
 | `schema.py` | 全情報源で共通のチャンク形式（id / text / source / title / breadcrumb / type） |
-| `crawl.py` | ① 収集。トップから幅優先でリンクをたどる |
-| `crawl_more.py` | 追加収集。出発点を指定し、新しいページだけをチャンクにする |
-| `preprocess.py` | ②③ 本文抽出・PDF 読み取り・分割・文字化け判定（`is_readable`） |
+| `build/crawl.py` | ① 収集。トップから幅優先でリンクをたどる |
+| `build/crawl_more.py` | 追加収集。出発点を指定し、新しいページだけをチャンクにする |
+| `build/preprocess.py` | ②③ 本文抽出・PDF 読み取り・分割・文字化け判定（`is_readable`） |
 | `index.py` | ④ 索引作成と ⑥ 検索（`Retriever`） |
-| `clean_index.py` | 索引から文字化けチャンクを除く |
-| `reextract_pdfs.py` | 化けていた PDF を取り直して PyMuPDF で読む |
-| `add_chunks.py` | JSONL のチャンクを索引に追加・入れ替え |
+| `build/clean_index.py` | 索引から文字化けチャンクを除く |
+| `build/reextract_pdfs.py` | 化けていた PDF を取り直して PyMuPDF で読む |
+| `build/add_chunks.py` | JSONL のチャンクを索引に追加・入れ替え |
 | `router.py` | 質問の種類の振り分け |
 | `prompts.py` | プロンプトのお手本 |
 | `generator.py` | sarashina の読み込みと生成 |
 | `tools.py` | 計算ツール（四則演算だけを許す `safe_calc`） |
 | `pipeline.py` | 質問1つに答える中心部品。コマンドとしても使える |
-| `evaluate.py` | 評価セットを解いて自動採点（キーワード一致、外部 API 不要） |
-| `run_eval.py` | 本番用。質問 JSON の全問に答えて `answers.json` を作る |
-| `eval_set.json` | 評価用100問（正解キーワード・禁止語つき） |
-| `add_question.json` | 手作りデータの無い分野の確認用10問 |
-| `colab_run.ipynb` | Colab で索引づくりをするためのノートブック |
+| `evaluation/evaluate.py` | 評価セットを解いて自動採点（キーワード一致、外部 API 不要） |
+| `evaluation/run_eval.py` | 質問 JSON の全問に答えて `outputs/answers.json` を作る |
+| `evaluation/sets/eval_set.json` | 評価用100問（正解キーワード・禁止語つき） |
+| `evaluation/sets/add_question.json` | 手作りデータの無い分野の確認用10問 |
+| `build/colab_run.ipynb` | Colab で索引づくりをするためのノートブック |
 | `data/kit_campus_map.jsonl` | キャンパスマップを書き起こした手作りデータ（32件） |
 | `data/kit_facts.jsonl` | 学部・学科、学費（大学公式）、会費、学長、図書館フロア、オナーズなどの事実データ |
 | `data/pdf_fixed.jsonl` | 読み直した PDF のチャンク |
@@ -93,26 +110,27 @@ uv run python pipeline.py --raw "図書館の6階には何がありますか？"
 uv run python pipeline.py              # 対話モード（空行で終了）
 
 # 評価
-uv run python evaluate.py                          # 100問
-uv run python evaluate.py --set add_question.json  # 確認用10問
-uv run python evaluate.py --ids A09 E06            # 指定した問題だけ
-#  → 最後に正解率、間違えた問題は eval_failures.jsonl、全問の詳細は eval_report.json
+uv run python -m evaluation.evaluate                # 100問
+uv run python -m evaluation.evaluate --set evaluation/sets/add_question.json  # 確認用10問
+uv run python -m evaluation.evaluate --ids A09 E06  # 指定した問題だけ
+#  → 最後に正解率、間違えた問題は outputs/eval_failures.jsonl、全問の詳細は outputs/eval_report.json
 
-# 本番
-uv run python run_eval.py questions.json           # → answers.json / answers_log.json
+# 本番（提出物と同じ入口）
+uv run python main.py                              # questions.csv → submission.csv
+uv run python -m evaluation.run_eval evaluation/sets/questions.json   # → outputs/answers.json / answers_log.json
 ```
 
-`run_eval.py` 冒頭の `TODO`（質問・ID・答えのキー名、送信先 URL）を採点の形式に合わせて使う。
+`evaluation/run_eval.py` 冒頭の `TODO`（質問・ID・答えのキー名、送信先 URL）を採点の形式に合わせて使う。
 
 ## データを足すとき
 
 ```bash
 # 手作りデータ（同じ id は入れ替え）
-uv run python add_chunks.py data/kit_facts.jsonl data/kit_campus_map.jsonl
+uv run python -m build.add_chunks data/kit_facts.jsonl data/kit_campus_map.jsonl
 
 # 分野を指定して追加クロール → 追加
-uv run python crawl_more.py https://www.kanazawa-it.ac.jp/kitnews/ --max-pages 150 --depth 2
-uv run python add_chunks.py data/more_chunks.jsonl --replace-sources --exclude mondai_
+uv run python -m build.crawl_more https://www.kanazawa-it.ac.jp/kitnews/ --max-pages 150 --depth 2
+uv run python -m build.add_chunks data/more_chunks.jsonl --replace-sources --exclude mondai_
 ```
 
 手作りデータは、種類（`type`）を書かずに `id` / `title` / `source` / `text` だけを書く（`source` が「キャンパスマップ」なら `map`、それ以外は `manual` として扱われる）。
@@ -137,11 +155,11 @@ uv run python add_chunks.py data/more_chunks.jsonl --replace-sources --exclude m
 |---|---|
 | `tiktoken is required` | `sentencepiece` が無い。Python 3.12 ＋ `transformers<5` で環境を作り直す |
 | `No module named 'httpx'` / `protobuf` | `uv pip install httpx protobuf` |
-| `segmentation fault`（埋め込み中） | Mac で faiss と torch がぶつかる。`add_chunks.py` は埋め込み後に faiss を読む作り。`OMP_NUM_THREADS=1 KMP_DUPLICATE_LIB_OK=TRUE` も有効 |
-| 途中から全問が空の答え | GPU（MPS）のメモリ詰まり。`evaluate.py` / `run_eval.py` は毎問メモリを片付け、失敗時は1回やり直す。ほかのアプリを閉じる |
-| VS Code で「File is read-only」 | 受け取ったファイルが読み取り専用。`chmod u+w *.py *.json *.md data/*.jsonl` |
+| `segmentation fault`（埋め込み中） | Mac で faiss と torch がぶつかる。`build/add_chunks.py` は埋め込み後に faiss を読む作り。`OMP_NUM_THREADS=1 KMP_DUPLICATE_LIB_OK=TRUE` も有効 |
+| 途中から全問が空の答え | GPU（MPS）のメモリ詰まり。`evaluation/evaluate.py` / `evaluation/run_eval.py` は毎問メモリを片付け、失敗時は1回やり直す。ほかのアプリを閉じる |
+| VS Code で「File is read-only」 | 受け取ったファイルが読み取り専用。`chmod u+w *.py */*.py *.md evaluation/sets/*.json data/*.jsonl` |
 | 答えが資料の続き（「### 資料5」など）になる | ベースモデルは指示より「続き」を書く。`prompts.py` のお手本形式で対処済み |
-| PDF の中身が化ける | フォントに文字の対応表が無い PDF。`reextract_pdfs.py`（PyMuPDF）で読み直し |
+| PDF の中身が化ける | フォントに文字の対応表が無い PDF。`build/reextract_pdfs.py`（PyMuPDF）で読み直し |
 
 ## 既知の弱点
 
