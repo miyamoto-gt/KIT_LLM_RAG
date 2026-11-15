@@ -10,3 +10,4 @@ answers*.json
 # 生成物（Git に入れない・zip に入れない）。フォルダだけ .gitkeep で残す
 outputs/*
 !outputs/.gitkeep
+*.sh

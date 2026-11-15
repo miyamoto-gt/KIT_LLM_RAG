@@ -36,6 +36,18 @@ _SHORT_ASK = re.compile(r"何(号館|階|年|月|日|時|分|人|名|円|％|%|�
 _LIST_REQ = re.compile(r"挙げ|列挙|順番に|順に")
 
 _ASK = re.compile(r"何|どこ|どの|どんな|どう|いつ|いくつ|いくら|誰")
+# 質問に書かれた個数（「4段階」「2つ」「6学部」「3か国」）。答えに並べる項目の数の目安
+_COUNT = re.compile(r"(?<![0-9０-９])([2-9２-９]|二|三|四|五|六|七|八|九)"
+                    r"(つ|段階|学部|学科|種類|か国|ヶ国|カ国|大学|項目|か所|ヶ所|点|人|名)")
+_KANJI = {"二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9}
+
+
+def listed_count(question: str) -> int:
+    """質問に書かれた個数の最大値（無ければ 0）。"""
+    nums = []
+    for d, _ in _COUNT.findall(question):
+        nums.append(_KANJI.get(d) or int(d.translate(str.maketrans("２３４５６７８９", "23456789"))))
+    return max(nums, default=0)
 _MULTI = ("それぞれ", "および", "ならびに")
 # 「Aと、B」の並べ方。ただし「足すと、」「合わせると、」のような条件の「と」（動詞の後）は除く
 _AND_COMMA = re.compile(r"(?<![すくるうつぬむぶぐ])と、")
@@ -64,7 +76,7 @@ def count_parts(question: str) -> int:
         n = max(n, 2)
         if "それぞれ" in question and "・" in question:   # 「A・B・Cをそれぞれ」
             n = max(n, question.count("・") + 1)
-    return max(n, 1)
+    return max(n, listed_count(question), 1)
 
 
 def plan(question: str) -> dict:
@@ -75,6 +87,9 @@ def plan(question: str) -> dict:
     if qtype == "fact" and is_multi(question):     # 複数の答えが要る事実質問は説明として答える
         qtype = "explain"
     base = CFG.max_new_tokens[qtype]
-    max_new = base + 80 * max(parts - 2, 0) if qtype == "explain" else base
+    if qtype == "explain":
+        max_new = base + 80 * max(parts - 2, 0)
+    else:                                          # 事実型でも「2つ」「6学部」のように並べる数が書かれていれば少し長く
+        max_new = base + 16 * max(listed_count(question) - 1, 0)
     return {"qtype": qtype, "parts": parts, "max_new": max_new,
             "max_sent": max(3, parts + 1), "n_calc": min(parts, 3) if qtype == "calc" else 1}

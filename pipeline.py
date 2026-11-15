@@ -15,6 +15,27 @@ from postfix import cut_english
 
 STOP_MARKERS = ("\n質問", "\n###", "\n資料", "\n例）")
 LIST_ITEM = re.compile(r"\n\s*(?:[-・*●◆]|\d+\s*[.．)）、])\s*")
+# 「以下の通りです。」のような前置きだけの行（中身は次の行から続く）
+PREAMBLE = re.compile(r"(以下の(通り|とおり|よう)|次の(通り|とおり|よう)|以下になります|以下です)")
+LABEL_ITEM = re.compile(r"^[^。]{1,40}?[：:]\s*\S")     # 「1966年：経営工学科」のような見出し付きの行
+
+
+def drop_preamble(text: str) -> str:
+    """1行目が前置き（以下の通りです 等）で、その後に中身があれば、前置きの行を外す。
+    事実型は1行目だけを答えにするので、前置きが残ると中身が全部消えてしまう。"""
+    lines = [l for l in text.splitlines() if l.strip()]
+    if len(lines) >= 2 and len(lines[0]) <= 80 and PREAMBLE.search(lines[0]):
+        return "\n".join(lines[1:])
+    return text
+
+
+def is_item(line: str) -> bool:
+    return bool(LIST_ITEM.match("\n" + line)) or (bool(LABEL_ITEM.match(line)) and "。" not in line[:-1])
+
+
+def strip_item(line: str) -> str:
+    m = LIST_ITEM.match("\n" + line)
+    return line[m.end() - 1:].strip() if m else line.strip()
 
 
 def ensure_calc_values(answer: str, calcs: list) -> str:
@@ -45,10 +66,22 @@ def postprocess(text: str, qtype: str, max_sent: int = 3) -> str:
         if m in text:
             text = text.split(m)[0]
     text = cut_english(text.strip())             # 途中から英語に切り替わったら、その手前の「。」で切る
+    after = drop_preamble(text)                  # 「以下の通りです。」だけの1行目を外す
+    listed = after != text                       # 前置きの後ろは一覧（記号が無くても項目とみなす）
+    text = after
     if qtype in ("fact", "calc"):
-        text = text.split("\n\n")[0]
-        lines = [l for l in text.splitlines() if l.strip()]
-        text = lines[0] if lines else ""
+        lines = [l.strip() for l in text.split("\n\n")[0].splitlines() if l.strip()]
+        if len(lines) >= 2 and listed and all(len(l) <= 60 for l in lines):
+            text = "、".join(strip_item(l).rstrip("。") for l in lines) + "。"
+        elif len(lines) >= 2 and is_item(lines[0]):   # 一覧で答えている → 続く項目を「、」でつなぐ
+            items = []
+            for l in lines:
+                if not is_item(l):
+                    break
+                items.append(strip_item(l).rstrip("。"))
+            text = "、".join(items) + "。"
+        else:
+            text = lines[0] if lines else ""
         text = re.sub(r"^(回答|答え)[:：]\s*", "", text)
     if qtype == "explain":
         text = text.split("\n\n資料")[0]
@@ -57,9 +90,8 @@ def postprocess(text: str, qtype: str, max_sent: int = 3) -> str:
             line = line.strip()
             if not line:
                 continue
-            m = LIST_ITEM.match("\n" + line)
-            if m:                                # 箇条書きの1行
-                items.append(line[m.end() - 1:].strip())
+            if is_item(line):                    # 箇条書き・「見出し：中身」の1行
+                items.append(strip_item(line).rstrip("。"))
                 continue
             if items:                            # 箇条書きが終わったら「、」でつないで1文にする
                 parts.append("、".join(items) + "。")

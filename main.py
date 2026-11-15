@@ -124,13 +124,15 @@ def clean(ans) -> str:
 
 # ---------- RAG ----------
 _RAG = None
+_RAG_TRIED = False                                         # 読み込みは1回だけ試す（失敗しても毎問やり直さない）
 
 
 def load_rag():
     """モデルと索引を読み込む。失敗したら None（呼び出し側で「不明」にする）。"""
-    global _RAG
-    if _RAG is not None:
+    global _RAG, _RAG_TRIED
+    if _RAG_TRIED:
         return _RAG
+    _RAG_TRIED = True
     cwd = os.getcwd()
     try:
         os.chdir(HERE)                                     # 索引などを相対パスで読む
