@@ -11,5 +11,4 @@ answers*.json
 outputs/*
 !outputs/.gitkeep
 *.sh
-
-knowledge/
+submission/knowledge/

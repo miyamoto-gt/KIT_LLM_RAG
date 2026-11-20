@@ -1,5 +1,0 @@
-出典: http://w3e.kanazawa-it.ac.jp/math/other/henkan-tex.cgi?target=/math/other/link_back_learning.html
-確認日: 2026-10-29
-
-【リンク・バック・ラーニング（Link Back Learning）】
-| リンク・バック・ラーニング（Link　Back　Learning） 「リンク・バック・ラーニング」とは，リンクをたどりながら基礎に向かって学習していく方法である．詳しくは，以下の引用を参考にしてください． インターネットの発達，普及に伴って様々なe-ラーニング教材が開発され実用化されている．このe-ラーニング教材は従来の書籍にない多くの特徴と機能を有しており，学習の方法にも変化をもたらしている．本報告では，筆者が開発している基礎数学のe-ラーニング教材である「KIT数学ナビゲーション」を用いて，ウェブページのリンクをたどり基礎に立ち返りながら学習する「リンク・バック・ラーニング」を提案しその利点について述べる． A wide variety of e-learning materials have been developed and implemented due to the increased accessibility to the Internet. The e-learning materials have many features and functions which conventional books don't have, and they affect the way the students learn in. In this paper, the author introduces the "Link Back Learning" by using KIT Mathematics Navigation, which aims to develop basic math skills, and describes the benefits of it. 【CiNii - KIT数学ナビゲーションを活用したリンク・バック・ラーニングより引用】 以下に，リンク・バック・ラーニングのイメージ図を示す． 「KIT数学ナビゲーションを活用したネット指導の検討」も参考にしてください． ホームページへ戻る 初版：2007年4月15日，最終更新日：           2015年6月6日 |
