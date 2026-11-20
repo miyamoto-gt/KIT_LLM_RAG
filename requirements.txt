@@ -1,12 +1,6 @@
-requests
-beautifulsoup4
-trafilatura
-pypdf
-sentence-transformers>=3.0
-transformers>=4.48,<5
-accelerate
-faiss-cpu
-rank-bm25
+# 手元の開発用（submission/ を試す・資料を作る）。旧版（torch 版）の依存は legacy/requirements.txt
+openai
 numpy
-torch
-sentencepiece
+rank-bm25
+faiss-cpu
+pandas
