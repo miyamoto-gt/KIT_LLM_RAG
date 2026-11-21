@@ -26,8 +26,8 @@ LABEL_ITEM = re.compile(r"^[^。]{1,40}?[：:]\s*\S")     # 「1966年：経営�
 
 
 # 「資料[2]の」「資料[1]と[3]から、」のような出典への言及（答えの中身ではない）
-_REF = re.compile(r"(与えられた)?資料\s*[\[［]\d+[\]］](\s*[とや、・]\s*(資料\s*)?[\[［]?\d+[\]］]?)*"
-                  r"\s*(の両方|のいずれ)?\s*(の中で|の中に|によると|によれば|では|から|に|で|の)?\s*[、,]?")
+_REF = re.compile(r"(与えられた)?(資料\s*)?[\[［]\d+[\]］](\s*[とや、・]\s*(資料\s*)?[\[［]?\d+[\]］]?)*"
+                  r"\s*(の両方|のいずれ)?\s*(を総合すると|をまとめると|の中で|の中に|によると|によれば|には|では|から|に|で|の)?\s*[、,]?")
 # 答えの中身ではない文（出典の話・「資料からは分からない」・「詳しくは〜」の案内）
 _META_SENT = re.compile(r"与えられた資料|記載(があ|されて)|(資料|情報)(に|では|から)は?.{0,12}(記載|書かれ|記述)|"
                         r"同じ情報が|より詳(細|しい)な情報|詳しくは|確認(して|することを)")
@@ -35,10 +35,16 @@ _META_SENT = re.compile(r"与えられた資料|記載(があ|されて)|(資料
 
 def drop_meta(text: str) -> str:
     """出典への言及を外し、中身の無い文（資料の話・案内）を落とす。中身のある文が1つも無ければ元のまま。"""
-    sents = [_REF.sub("", x).strip() for x in re.findall(r"[^。\n]+(?:。|$)", text)]
+    sents = [_LEAD.sub("", _REF.sub("", _LEAD.sub("", x.strip()))).strip()
+             for x in re.findall(r"[^。\n]+(?:。|$)", text)]
     sents = [x for x in sents if x.strip("。、 ")]
     keep = [x for x in sents if not _META_SENT.search(x)]
-    return "".join(keep or sents).strip()
+    text = "".join(keep or sents).strip()
+    return _LEAD.sub("", text)                 # 前の文を落としたあとに残る「しかし、」「また、」などを外す
+
+
+# 文頭のつなぎの言葉（前の文が無いと意味が通らない）
+_LEAD = re.compile(r"^(しかし|ただし|また|そのため|なお|つまり|さらに|一方|したがって|以上から|これらを総合すると)、\s*")
 
 
 def drop_cut_tail(text: str) -> str:

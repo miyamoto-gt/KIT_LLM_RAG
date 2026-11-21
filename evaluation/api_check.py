@@ -7,6 +7,7 @@ API の URL とトークンは `python submit.py login` で保存された ~/.ki
   python evaluation/api_check.py --set evaluation/sets/my_new69.json
   python evaluation/api_check.py --set evaluation/sets/public_set.json --mode normal
   python evaluation/api_check.py --set ... --top-k 2 --narrow-keep 4 --tag k2      # 渡す量を変えて比べる
+  python evaluation/api_check.py --set ... --top-k-fact 2 --tag f2                  # 1つの事実の質問だけ2件にする
   python evaluation/api_check.py --set ... --embed-model cl-nagoya/ruri-v3-310m --mode retrieval  # 埋め込みの比較
 
 段階:
@@ -122,6 +123,8 @@ def setup_env(args):
         os.environ.update({"LLM_BASE_URL": url, "OPENAI_BASE_URL": url, "OPENAI_API_KEY": cfg["token"]})
     os.environ["KITRAG_TIME_LIMIT"] = str(10 ** 9)          # 評価では締め切りで打ち切らない
     os.environ["KITRAG_NARROW"] = "1" if args.narrow else "0"
+    os.environ["KITRAG_DECOMPOSE"] = "0" if args.no_decompose else "1"
+    os.environ["KITRAG_REPAIR"] = "0" if args.no_repair else "1"
     if args.embed_model:
         os.environ["KITRAG_EMBED_MODEL"] = args.embed_model
     sys.path.insert(0, str(Path(args.code).resolve()))
@@ -137,9 +140,13 @@ def main():
     ap.add_argument("--code", default="submission", help="main.py と kitrag/ があるフォルダ")
     ap.add_argument("--mode", default="both", choices=["both", "normal", "oracle", "retrieval"])
     ap.add_argument("--top-k", type=int, default=None, help="生成に渡すチャンク数（既定は settings.TOP_K）")
+    ap.add_argument("--top-k-fact", type=int, default=None, help="答えが1つの事実の質問に渡すチャンク数（既定は top-k と同じ）")
     ap.add_argument("--narrow", type=int, default=1, choices=[0, 1], help="資料を関係する文に絞るか")
     ap.add_argument("--narrow-keep", type=int, default=None, help="絞り込みで残す文の数（既定は settings.NARROW_KEEP）")
-    ap.add_argument("--embed-model", default=None, help="埋め込みモデル（例: cl-nagoya/ruri-v3-310m）")
+    ap.add_argument("--narrow-keep-explain", type=int, default=None, help="説明・計算の質問で残す文の数（既定は settings.NARROW_KEEP_EXPLAIN）")
+    ap.add_argument("--no-decompose", action="store_true", help="「AとBは、それぞれ〜」を分けて答えない")
+    ap.add_argument("--no-repair", action="store_true", help="答えの形の点検・直しをしない")
+    ap.add_argument("--embed-model", default=None, help="埋め込みモデル（例: cl-nagoya/ruri-v3-310m。カンマ区切りで複数 → RRF でまとめる）")
     ap.add_argument("--ids", nargs="*", help="この質問だけ")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--tag", default="", help="結果ファイル名に付ける印（設定を変えて比べるとき）")
@@ -153,8 +160,13 @@ def main():
     from kitrag.router import plan
     if args.top_k:
         S.TOP_K = args.top_k
+        S.TOP_K_FACT = args.top_k
+    if args.top_k_fact:
+        S.TOP_K_FACT = args.top_k_fact
     if args.narrow_keep:
         S.NARROW_KEEP = args.narrow_keep
+    if args.narrow_keep_explain:
+        S.NARROW_KEEP_EXPLAIN = args.narrow_keep_explain
 
     qs = json.load(open(args.set, encoding="utf-8"))
     if args.ids:
@@ -164,8 +176,8 @@ def main():
     rag = RAG(chunks, log=lambda m: print(f"  {m}", flush=True))
     R = rag.retriever
     nchunks = [norm(c.text) for c in chunks]
-    print(f"資料 {len(chunks)} チャンク・{len(qs)} 問・埋め込み {S.EMBEDDING_MODEL}・top_k {S.TOP_K}・"
-          f"絞り込み {'あり（' + str(S.NARROW_KEEP) + '文）' if S.NARROW else 'なし'}（準備 {time.time() - t0:.0f}秒）")
+    print(f"資料 {len(chunks)} チャンク・{len(qs)} 問・埋め込み {' + '.join(S.EMBED_MODELS)}・top_k {S.TOP_K}（1つの事実は {S.TOP_K_FACT}）・"
+          f"絞り込み {'あり（事実 ' + str(S.NARROW_KEEP) + '文・説明 ' + str(S.NARROW_KEEP_EXPLAIN) + '文）' if S.NARROW else 'なし'}（準備 {time.time() - t0:.0f}秒）")
 
     def one(q):
         ev = evidence_of(q)
@@ -173,8 +185,10 @@ def main():
         r = {"id": q["id"], "question": q["question"], "category": q.get("category", ""), "expect": expect}
         gold = [i for i, t in enumerate(nchunks) if ev and contains_all(t, ev)] if ev else []
         r["gold_n"] = len(gold)
-        hits, info = R.search(q["question"], k=S.TOP_K, debug=True)
-        ctx = build_context(q["question"], hits, plan(q["question"])["qtype"])
+        p = plan(q["question"])
+        r["k"] = S.top_k_for(p)
+        hits, info = R.search(q["question"], k=r["k"], debug=True)
+        ctx = build_context(q["question"], hits, p["qtype"])
         if ev:
             gs = set(gold)
             r["pool_dense"] = bool(gs & set(info["dense"]))
@@ -183,7 +197,11 @@ def main():
             r["ctx"] = contains_all(norm(ctx), ev)
         r["sources"] = [c.source for c, _ in hits]
         if args.mode in ("both", "normal"):
-            out = rag.answer(q["question"], hits=hits)
+            from kitrag.repair import decompose
+            # 分けて答える質問は、本番と同じく部分ごとに検索させる（hits を渡すと分けない）
+            out = rag.answer(q["question"]) if (S.DECOMPOSE and decompose(q["question"])) else rag.answer(q["question"], hits=hits)
+            r["qtype_used"] = out.get("qtype")
+            r["raw"] = out.get("raw", "")[:600]
             r["answer"] = out["answer"]
             r["normal"], r["normal_why"] = judge(out["answer"], expect, q.get("forbid", []))
             if r["normal"] == "fail":
@@ -214,7 +232,7 @@ def main():
     print("  ① 候補に入った  埋め込み", pct(sum(r["pool_dense"] for r in hasgold), len(hasgold)),
           " BM25", pct(sum(r["pool_bm25"] for r in hasgold), len(hasgold)),
           " どちらか", pct(sum(r["pool_dense"] or r["pool_bm25"] for r in hasgold), len(hasgold)))
-    print("  ② 上位", S.TOP_K, "件に入った", pct(sum(r["topk"] for r in hasgold), len(hasgold)))
+    print(f"  ② 上位 {S.TOP_K} 件（1つの事実は {S.TOP_K_FACT} 件）に入った", pct(sum(r["topk"] for r in hasgold), len(hasgold)))
     print("  ③ 絞った資料に残った", pct(sum(r["ctx"] for r in hasgold), len(hasgold)))
 
     judged = [r for r in rows if r.get("normal") in ("pass", "fail")]
@@ -225,6 +243,12 @@ def main():
               "← ここで落ちるのが「資料はあるのに答えられない」")
         c = Counter(r["normal_class"] for r in judged if r["normal"] == "fail")
         print("  失敗の内訳:", "  ".join(f"{k} {v}" for k, v in c.most_common()) or "なし")
+        sp = [r for r in judged if r.get("qtype_used") == "split"]
+        rp = [r for r in judged if "||直し||" in (r.get("raw") or "")]
+        if sp:
+            print(f"  分けて答えた質問 {len(sp)} 問（正解 {sum(r['normal'] == 'pass' for r in sp)}）: " + " ".join(r["id"] for r in sp))
+        if rp:
+            print(f"  形を直した質問 {len(rp)} 問（正解 {sum(r['normal'] == 'pass' for r in rp)}）: " + " ".join(r["id"] for r in rp))
     orc = [r for r in rows if r.get("oracle") in ("pass", "fail")]
     if orc:
         print("\n【⑤ oracle】根拠チャンク1件だけを渡したときの正解", pct(sum(r["oracle"] == "pass" for r in orc), len(orc)))
@@ -246,8 +270,8 @@ def main():
     name = Path(args.set).stem + (f"_{args.tag}" if args.tag else "")
     out = f"outputs/api_check_{name}.json"
     with open(out, "w", encoding="utf-8") as f:
-        json.dump({"settings": {"embed": S.EMBEDDING_MODEL, "top_k": S.TOP_K, "narrow": S.NARROW,
-                                "narrow_keep": S.NARROW_KEEP, "mode": args.mode}, "rows": rows},
+        json.dump({"settings": {"embed": S.EMBED_MODELS, "top_k": S.TOP_K, "top_k_fact": S.TOP_K_FACT, "narrow": S.NARROW,
+                                "narrow_keep": S.NARROW_KEEP, "narrow_keep_explain": S.NARROW_KEEP_EXPLAIN, "mode": args.mode}, "rows": rows},
                   f, ensure_ascii=False, indent=1)
     print(f"\n→ {out}（{time.time() - t0:.0f}秒）")
 

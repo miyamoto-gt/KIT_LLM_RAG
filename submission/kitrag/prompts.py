@@ -198,7 +198,8 @@ def build_context(question: str, hits: list, qtype: str) -> str:
         return format_context(hits, question)           # 日付の質問は従来の圧縮（実績あり）
     if S.NARROW:
         parts = count_parts(question)
-        ctx = narrow_context(hits, question, keep=S.NARROW_KEEP + 2 * max(parts - 1, 0))
+        base = S.NARROW_KEEP if qtype == "fact" else S.NARROW_KEEP_EXPLAIN   # 事実は少なめ（引っ張られにくい）、説明は多め（項目がそろう）
+        ctx = narrow_context(hits, question, keep=base + 2 * max(parts - 1, 0))
         if ctx:
             return ctx
     return format_context(hits)
@@ -208,13 +209,17 @@ def build_context(question: str, hits: list, qtype: str) -> str:
 
 SYSTEM = ("あなたは金沢工業大学（KIT）に関する質問に答えるアシスタントです。"
           "与えられた資料だけを根拠に、日本語で答えてください。資料に書かれていないことは付け足さないでください。"
+          "名前・数値・年・英語の語は、資料に書かれている表記のまま書き写してください（今の名前に言い換えない）。"
           "資料に答えがそのまま無い場合は、資料から分かる範囲で最も関係する内容を簡潔に答えてください。"
           "「資料[1]」のような資料の番号や「資料によると」は書かず、答えの内容だけを書いてください。")
 
 INSTRUCTION = {
-    "fact": "質問への答えだけを、1文で簡潔に書いてください。前置き（「以下の通りです」など）や説明は書かないでください。",
-    "explain": ("質問の各部分に順番に答えてください。各部分は1文ずつ、資料の言葉を使って簡潔に書き、"
-                "全体で{max_sent}文以内にしてください。前置きは書かないでください。"),
+    "fact": ("質問が聞いている形（いくつ→数、どこ→場所、いつ→年や日付、何→名前）で、答えだけを1文で書いてください。"
+             "答えが複数ある質問（「〜を2つ」「挙げて」など）では、資料にある該当するものをすべて挙げてください。"
+             "前置き（「以下の通りです」など）や説明は書かないでください。"),
+    "explain": ("質問が聞いている項目（「と」「・」「それぞれ」で並んだもの）を最初に確かめ、"
+                "すべての項目に順番に答えてください。各項目は1〜2文で、資料の言葉を使って簡潔に書き、"
+                "全体で{max_sent}文以内にしてください。前置きやまとめの文は書かないでください。"),
     "calc": ("質問に答えるのに必要な数値を資料から探し、計算式だけを <calc>式</calc> の形で書いてください。"
              "計算が2つ必要なら <calc> を2つ書いてください。答えの文章は書かないでください。"),
 }

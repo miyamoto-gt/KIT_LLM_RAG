@@ -87,23 +87,30 @@ class Retriever:
             self.bm25 = BM25Okapi(docs)
         except Exception:
             self.bm25 = _SimpleBM25(docs)
-        self.vectors = self._embed_all()                    # None なら BM25 だけ
+        self._t_embed = time.time()
+        self.vecs = {}                                      # モデル名 → ベクトル（できなかったモデルは入らない）
+        for m in S.EMBED_MODELS:
+            v = self._embed_all(m)
+            if v is not None:
+                self.vecs[m] = v
+        self.vectors = self.vecs.get(S.EMBEDDING_MODEL)     # 手作りデータの優先に使う（無ければ優先しない）
         # 同じページの前後のチャンク（source と seq で引く）
         self.by_source = {}
         for c in chunks:
             self.by_source.setdefault(c.source, {})[c.seq] = c
 
     # ---- 資料の埋め込み ----
-    def _cache_path(self):
-        h = hashlib.sha256((S.EMBEDDING_MODEL + "\n".join(c.text for c in self.chunks)).encode()).hexdigest()[:16]
+    def _cache_path(self, model):
+        h = hashlib.sha256((model + "\n".join(c.text for c in self.chunks)).encode()).hexdigest()[:16]
         return os.path.join(os.path.expanduser("~"), ".cache", "kitrag", f"emb_{h}.npy")
 
-    def _embed_all(self):
+    def _embed_all(self, model):
         if not self.chunks or not S.LLM_BASE_URL and not os.environ.get("OPENAI_BASE_URL"):
             self.log("埋め込み API が無いので BM25 だけで検索します")
             return None
-        self.log(f"埋め込みモデル: {S.EMBEDDING_MODEL}（質問「{S.QUERY_PREFIX}」・資料「{S.DOC_PREFIX}」）")
-        cache = self._cache_path()
+        qp, dp = S.prefixes(model)
+        self.log(f"埋め込みモデル: {model}（質問「{qp}」・資料「{dp}」）")
+        cache = self._cache_path(model)
         try:
             if os.path.exists(cache):
                 v = np.load(cache)
@@ -113,32 +120,50 @@ class Retriever:
         except Exception:
             pass
         t0 = time.time()
-        texts = [S.DOC_PREFIX + c.text for c in self.chunks]
+        texts = [dp + c.text for c in self.chunks]
         starts = list(range(0, len(texts), S.EMBED_BATCH))
         out = [None] * len(texts)
         fails = [0]
 
+        stop = [None]                                  # サーバー側の理由で打ち切ったときの理由
+
         def run(lo, hi):
-            """lo〜hi を埋め込む。大きいまとまりで失敗したら、すぐ半分に分けてやり直す。
-            4件以下でも失敗するときだけ、待ってやり直す（サーバーが一時的に落ちている場合）。"""
-            if time.time() - t0 > S.EMBED_TIME_LIMIT or fails[0] > 20:   # 時間切れ・サーバーが落ちている
+            """lo〜hi を埋め込む。
+            ・送る量が原因らしい失敗（400 / 413 など）だけ、半分に分けて送り直す
+            ・サーバー側の失敗（429 回数制限・5xx 停止・タイムアウト）は分けても直らず回数を無駄にするので、
+              3回続いたら全体を打ち切って BM25 に任せる（429 はすぐ打ち切る）"""
+            if stop[0] or time.time() - self._t_embed > S.EMBED_TIME_LIMIT:
                 return
-            small = hi - lo <= 4
             try:
-                out[lo:hi] = llm.embed(texts[lo:hi], tries=3 if small else 1)
+                out[lo:hi] = llm.embed(texts[lo:hi], tries=2, model=model)
+                fails[0] = 0
             except Exception as e:
-                if small:
-                    fails[0] += 1
-                    if fails[0] <= 3:
-                        self.log(f"埋め込みに失敗（{hi - lo}件）: {type(e).__name__}: {str(e)[:80]}")
+                code = getattr(e, "status_code", None)
+                server_side = code == 429 or (code or 0) >= 500 or "Timeout" in type(e).__name__ \
+                    or "Connection" in type(e).__name__
+                if server_side and code != 429 and hi - lo > 8:   # 大きいまとまりの 5xx は量のせいかもしれない：8件まで分けて試す
+                    mid = (lo + hi) // 2
+                    run(lo, mid)
+                    run(mid, hi)
                     return
-                mid = (lo + hi) // 2
-                run(lo, mid)
-                run(mid, hi)
+                if server_side:
+                    fails[0] += 1
+                    self.log(f"埋め込みに失敗（{hi - lo}件）: {type(e).__name__} {code or ''}")
+                    if code == 429 or fails[0] >= 3:
+                        stop[0] = f"{type(e).__name__} {code or ''}"
+                    return
+                if hi - lo > 4:                        # 送る量の問題 → 半分にして送り直す
+                    mid = (lo + hi) // 2
+                    run(lo, mid)
+                    run(mid, hi)
+                else:
+                    self.log(f"埋め込みに失敗（{hi - lo}件）: {type(e).__name__}: {str(e)[:80]}")
 
         with ThreadPoolExecutor(max_workers=S.EMBED_WORKERS) as pool:
             list(pool.map(lambda st: run(st, min(st + S.EMBED_BATCH, len(texts))), starts))
         missing = sum(o is None for o in out)
+        if stop[0]:
+            self.log(f"サーバー側のエラー（{stop[0]}）が続いたので埋め込みを打ち切りました")
         if missing > 0.3 * len(texts):
             self.log(f"埋め込みが {missing}/{len(texts)} 件できなかったので BM25 だけで検索します（{time.time() - t0:.0f}秒）")
             return None
@@ -180,25 +205,27 @@ class Retriever:
         n = len(self.chunks)
         if n == 0:
             return []
-        dense, dense_rank = {}, []
-        q = None
-        if self.vectors is not None and use_dense:
+        dense, dense_rank, q = {}, [], None              # dense / q は優先判定用のモデル（EMBED_MODELS の先頭）
+        ranks = []                                         # モデルごとの候補の順位
+        for m, vec in (self.vecs.items() if use_dense else []):
             try:
-                q = np.asarray(llm.embed([S.QUERY_PREFIX + query], tries=2)[0], dtype="float32")
-                sims = self.vectors @ q
-                dense_rank = [int(i) for i in np.argsort(-sims)[:S.POOL]]
-                dense = {i: float(sims[i]) for i in dense_rank}
+                qv = np.asarray(llm.embed([S.prefixes(m)[0] + query], tries=2, model=m)[0], dtype="float32")
+                sims = vec @ qv
+                rl = [int(i) for i in np.argsort(-sims)[:S.POOL]]
+                ranks.append(rl)
+                if m == S.EMBEDDING_MODEL:
+                    q, dense_rank, dense = qv, rl, {i: float(sims[i]) for i in rl}
             except Exception as e:
-                self.log(f"質問の埋め込みに失敗（BM25 だけで検索）: {type(e).__name__}")
-                q = None
+                self.log(f"質問の埋め込みに失敗（{m}）: {type(e).__name__}")
         scores = np.asarray(self.bm25.get_scores(char_bigrams(query)), dtype="float32")
         sparse_rank = [int(i) for i in np.argsort(-scores)[:S.POOL]]
 
         base = {}
-        for rl in (dense_rank, sparse_rank):
+        for rl in ranks + [sparse_rank]:
             for r, i in enumerate(rl):
                 base[i] = base.get(i, 0.0) + 1.0 / (60 + r)
-        order = sorted(base, key=lambda i: base[i] * self.recency[i], reverse=True)
+        past = bool(S.PAST_Q.search(query))                 # 過去を聞く質問は新しさの補正をしない
+        order = sorted(base, key=lambda i: base[i] * (1.0 if past else self.recency[i]), reverse=True)
 
         picked = []
         if q is not None and self.prio_ids and dense:
@@ -224,5 +251,5 @@ class Retriever:
             if len(out) >= k:
                 break
         if debug:
-            return out, {"dense": dense_rank, "bm25": sparse_rank}
+            return out, {"dense": sorted({i for rl in ranks for i in rl}), "dense_each": ranks, "bm25": sparse_rank}
         return out

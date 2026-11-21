@@ -34,6 +34,8 @@ def _retry(fn, tries=4):
         except Exception as e:
             if "Timeout" in type(e).__name__:        # 混雑で待ちきれなかった：やり直すと列の最後に並び直すだけなので諦める
                 raise
+            if getattr(e, "status_code", None) == 429:   # 回数制限：やり直しても回数を使うだけ
+                raise
             if k == tries - 1 or S.remaining() < 30:
                 raise
             time.sleep(2.0 * (k + 1))
@@ -47,9 +49,9 @@ def chat(messages, max_tokens=128):
     return (r.choices[0].message.content or "").strip()
 
 
-def embed(texts, tries=4):
+def embed(texts, tries=4, model=None):
     """正規化したベクトル（list[list[float]]）を返す。"""
-    r = _retry(lambda t: client().with_options(timeout=t).embeddings.create(model=S.EMBEDDING_MODEL, input=list(texts)),
+    r = _retry(lambda t: client().with_options(timeout=t).embeddings.create(model=model or S.EMBEDDING_MODEL, input=list(texts)),
                tries=tries)
     out = []
     for item in r.data:

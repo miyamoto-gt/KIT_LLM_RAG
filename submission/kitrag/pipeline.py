@@ -13,6 +13,7 @@ from .prompts import build_calc_answer_messages, build_context, build_messages
 from .retriever import Retriever
 from .router import plan
 from .tools import run_calc_all
+from .repair import decompose, repair_message, unit_missing
 
 
 def extractive(ctx: str) -> str:
@@ -30,12 +31,19 @@ class RAG:
         self.retriever = Retriever(chunks, log=log)
         self.log = log
 
-    def answer(self, question: str, hits=None) -> dict:
+    def answer(self, question: str, hits=None, split=True) -> dict:
         """hits を渡すと検索をとばしてその資料で答える（評価で「正解の資料だけ」を渡すとき用）。"""
+        subs = decompose(question) if (split and hits is None and S.DECOMPOSE) else []
+        if subs:                                        # 「AとBは、それぞれ〜」→ 1つずつ検索・生成してつなぐ
+            outs = [self.answer(sq, split=False) for sq in subs]
+            ans = "".join(o["answer"] if o["answer"].endswith("。") else o["answer"] + "。" for o in outs)
+            return {"question": question, "answer": ans[:S.MAX_ANSWER_CHARS], "raw": " / ".join(o["raw"] for o in outs),
+                    "qtype": "split", "parts": len(subs), "sources": [s for o in outs for s in o["sources"]],
+                    "context": "\n".join(o["context"] for o in outs)}
         p = plan(question)
         qtype = p["qtype"]
         if hits is None:
-            hits = self.retriever.search(question, k=S.TOP_K)
+            hits = self.retriever.search(question, k=S.top_k_for(p))
         ctx = build_context(question, hits, qtype)
         try:
             raw = llm.chat(build_messages(question, hits, qtype, p["max_sent"], ctx=ctx), p["max_new"])
@@ -54,6 +62,15 @@ class RAG:
             ans = postprocess(raw, post_type, post_sent)
             if calcs:
                 ans = ensure_calc_values(ans, calcs)
+            elif S.REPAIR and S.remaining() > 60:          # 答えの形を点検し、だめなときだけ1回直させる
+                words = unit_missing(question, ans)
+                if words:
+                    msgs = build_messages(question, hits, post_type, post_sent, ctx=ctx)
+                    msgs += [{"role": "assistant", "content": raw}, {"role": "user", "content": repair_message(question, words)}]
+                    raw2 = llm.chat(msgs, p["max_new"])
+                    ans2 = postprocess(raw2, "fact", 3)
+                    if ans2 and not unit_missing(question, ans2):
+                        ans, raw = ans2, raw + " ||直し|| " + raw2
         except Exception as e:
             self.log(f"生成に失敗: {type(e).__name__}: {str(e)[:120]}")
             raw, ans = "", ""

@@ -22,8 +22,13 @@ class Chunk:
 _META = re.compile(r"^(出典|確認日|種類)\s*[:：]\s*(.*)$")
 
 
+_CTRL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\u200b-\u200f\u2028-\u202e\ufeff\ufff0-\uffff]")
+
+
 def parse_file(path):
-    lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+    raw = path.read_text(encoding="utf-8", errors="ignore")
+    raw = _CTRL.sub(" ", raw)                          # PDF 由来の制御文字（\x01 など）を消す（埋め込み API に送らない）
+    lines = raw.splitlines()
     meta, i = {}, 0
     while i < len(lines) and (not lines[i].strip() or _META.match(lines[i].strip())):
         m = _META.match(lines[i].strip())
