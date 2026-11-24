@@ -36,8 +36,10 @@ QUERY_PREFIX, DOC_PREFIX = prefixes(EMBEDDING_MODEL)
 
 # ---- 時間（制限 30 分）----
 TIME_LIMIT = float(os.environ.get("KITRAG_TIME_LIMIT", 25 * 60))   # ここで打ち切り、残りは資料の一文で答えて書き出す（制限30分）
-EMBED_TIME_LIMIT = float(os.environ.get("KITRAG_EMBED_TIME_LIMIT", 12 * 60))  # 資料の埋め込みにかけてよい時間
-WORKERS = int(os.environ.get("KITRAG_WORKERS", 4))       # 並列に答える質問数
+EMBED_TIME_LIMIT = float(os.environ.get("KITRAG_EMBED_TIME_LIMIT", 8 * 60))   # 資料の埋め込みの上限。ふだん約5分。超えたら BM25 に任せて生成の時間を守る（生成のほうが1分あたりの価値が大きい）
+WORKERS = int(os.environ.get("KITRAG_WORKERS", 6))       # 並列に答える質問数（11/24 実測：4→6で速く、8はタイムアウトが増える）
+PHRASE_BOOST = os.environ.get("KITRAG_PHRASE_BOOST", "0") == "1"   # 質問の（専願型）「…」を含む資料を前に出す（11/24：BM25だけの確認で効果なし→既定は使わない）
+RETRY_MIN_LEFT = int(os.environ.get("KITRAG_RETRY_MIN_LEFT", 150))   # 2周目（生成に失敗した問題の答え直し）を始める残り秒数の下限
 EMBED_WORKERS = int(os.environ.get("KITRAG_EMBED_WORKERS", 1))   # 資料の埋め込みは1つずつ順番に送る（同時に送ると 502 になりやすく、速さもほぼ同じ）
 EMBED_BATCH = int(os.environ.get("KITRAG_EMBED_BATCH", 32))   # 1回の API に送るチャンク数
 REQUEST_TIMEOUT = float(os.environ.get("KITRAG_TIMEOUT", 180))   # 1回の API の待ち時間（混んでいると順番待ちが長い。締め切りが近ければ短く）
@@ -62,6 +64,7 @@ PAST_Q = _re.compile(r"開学|創立|設立当初|設置された|前身|沿革|
 # ---- 生成 ----
 MAX_NEW_TOKENS = {"fact": 64, "calc": 64, "explain": 200}
 NARROW = os.environ.get("KITRAG_NARROW", "1") == "1"   # 資料を質問に関係する文だけに絞る
+LIST_EXTEND = int(os.environ.get("KITRAG_LIST_EXTEND", 8))   # 絞り込みで、箇条書きの続きの項目を何文まで残すか（0で使わない）
 NARROW_KEEP, NARROW_WIN = 8, 1          # 答えが1つの事実の質問で残す文の数
 NARROW_KEEP_EXPLAIN = int(os.environ.get("KITRAG_KEEP_EXPLAIN", 8))    # 説明・計算の質問で残す文の数（12 も試したが、良くも悪くもならなかった：11/21）
 DECOMPOSE = os.environ.get("KITRAG_DECOMPOSE", "1") == "1"   # 「AとBは、それぞれ〜」を分けて答える

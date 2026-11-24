@@ -200,6 +200,45 @@ class Retriever:
         from dataclasses import replace
         return replace(c, text=f"{c.title}\n{body}" if c.title else body)
 
+    def search_manual(self, query, k=2):
+        """手作りデータだけから、質問に近いものを k 件（答えを拒否したときの探し直し用）。"""
+        if not self.prio_ids:
+            return []
+        scores = np.asarray(self.bm25.get_scores(char_bigrams(query)), dtype="float32")[self.prio_ids]
+        rank = {}
+        for r, j in enumerate(np.argsort(-scores)[:10]):
+            rank[self.prio_ids[j]] = rank.get(self.prio_ids[j], 0.0) + 1.0 / (60 + r)
+        if self.vectors is not None:
+            try:
+                qv = np.asarray(llm.embed([S.QUERY_PREFIX + query], tries=1)[0], dtype="float32")
+                sims = self.vectors[self.prio_ids] @ qv
+                for r, j in enumerate(np.argsort(-sims)[:10]):
+                    rank[self.prio_ids[j]] = rank.get(self.prio_ids[j], 0.0) + 1.0 / (60 + r)
+            except Exception:
+                pass
+        best = sorted(rank, key=lambda i: -rank[i])[:k]
+        return [(self.chunks[i], 1.0) for i in best]
+
+    _PHRASE = re.compile(r"[（(「『]([^）)」』]{2,15})[）)」』]")
+
+    def _phrase_boost(self, query, order):
+        """質問に（専願型）「…」のような、種類を指定する語があれば、それを含む候補を前に出す。
+
+        「総合型選抜（専願型）」のように、似た資料（Uターン型・女子奨学生…）が多いときに、
+        指定された種類のページを選ぶため。候補（上位 S.POOL）の中だけで並べ替える。
+        """
+        if not S.PHRASE_BOOST:
+            return order
+        phrases = [p for p in self._PHRASE.findall(query) if not re.fullmatch(r"[0-9０-９年度月日\s]+", p)]
+        if not phrases:
+            return order
+        top = order[:S.POOL]
+        norm = lambda t: re.sub(r"\s+", "", t)
+        has = [i for i in top if all(norm(p) in norm(self.chunks[i].text) for p in phrases)]
+        if not has or len(has) == len(top):
+            return order
+        return has + [i for i in order if i not in set(has)]
+
     def search(self, query, k=S.TOP_K, use_dense=True, debug=False):
         """debug=True なら (結果, {"dense": 候補の番号, "bm25": 候補の番号}) を返す（評価用）。"""
         n = len(self.chunks)
@@ -226,6 +265,7 @@ class Retriever:
                 base[i] = base.get(i, 0.0) + 1.0 / (60 + r)
         past = bool(S.PAST_Q.search(query))                 # 過去を聞く質問は新しさの補正をしない
         order = sorted(base, key=lambda i: base[i] * (1.0 if past else self.recency[i]), reverse=True)
+        order = self._phrase_boost(query, order)
 
         picked = []
         if q is not None and self.prio_ids and dense:

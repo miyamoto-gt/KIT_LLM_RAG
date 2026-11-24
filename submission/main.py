@@ -77,6 +77,7 @@ def main():
 
     lock = threading.Lock()
     done = [0]
+    weak = []                                           # 生成に失敗した質問（2周目の対象）
 
     def quick(q):
         """締め切り後の答え：BM25 だけで検索し、資料の一文で答える（API は呼ばない）。"""
@@ -85,7 +86,7 @@ def main():
             from kitrag.prompts import build_context
             from kitrag.router import plan
             hits = rag.retriever.search(q, use_dense=False)
-            return extractive(build_context(q, hits, plan(q)["qtype"]))
+            return extractive(build_context(q, hits, plan(q)["qtype"]), q)
         except Exception:
             return FALLBACK
 
@@ -95,10 +96,16 @@ def main():
             a = quick(q)
         else:
             try:
-                a = rag.answer(q)["answer"]
+                r = rag.answer(q)
+                a = r["answer"]
+                if not r.get("raw"):                    # 生成に失敗して簡易回答になった → 時間が余れば2周目で答え直す
+                    with lock:
+                        weak.append(qid)
             except Exception as e:
                 log(f"{qid}: {type(e).__name__}")
                 a = FALLBACK
+                with lock:
+                    weak.append(qid)
         with lock:
             answers[qid] = a or FALLBACK
             done[0] += 1
@@ -118,6 +125,31 @@ def main():
         with lock:
             for qid in late:
                 answers[qid] = quick(qmap[qid]) or FALLBACK
+    # 2周目：全問に答え終わって時間が残っていれば、生成に失敗した質問だけ答え直す（だめなら1周目の答えのまま）
+    retried = fixed = 0
+    if not late and weak and S.remaining() > S.RETRY_MIN_LEFT:
+        qmap = dict(qs)
+        log(f"2周目：生成に失敗した {len(weak)} 問を答え直します（残り {S.remaining():.0f}秒）")
+
+        def redo(qid):
+            r = rag.answer(qmap[qid])
+            return qid, r
+
+        pool2 = ThreadPoolExecutor(max_workers=S.WORKERS)
+        futs2 = [pool2.submit(redo, qid) for qid in weak]
+        retried = len(futs2)
+        fin2, _ = wait(futs2, timeout=max(S.remaining(), 0))
+        pool2.shutdown(wait=False, cancel_futures=True)
+        for f in fin2:
+            try:
+                qid, r = f.result()
+            except Exception:
+                continue
+            if r.get("raw") and r.get("answer"):
+                with lock:
+                    answers[qid] = r["answer"]
+                fixed += 1
+        log(f"2周目：{retried} 問のうち {fixed} 問を答え直しました")
     with lock:
         write_answers(out_path, [(qid, answers[qid]) for qid, _ in qs])
     n_fb = sum(answers[q] == FALLBACK for q, _ in qs)

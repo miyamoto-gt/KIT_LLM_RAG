@@ -202,6 +202,8 @@ def main():
             out = rag.answer(q["question"]) if (S.DECOMPOSE and decompose(q["question"])) else rag.answer(q["question"], hits=hits)
             r["qtype_used"] = out.get("qtype")
             r["raw"] = out.get("raw", "")[:600]
+            r["debug"] = out.get("debug", {})
+            r["context"] = out.get("context", "")[:3000]
             r["answer"] = out["answer"]
             r["normal"], r["normal_why"] = judge(out["answer"], expect, q.get("forbid", []))
             if r["normal"] == "fail":
@@ -245,10 +247,13 @@ def main():
         print("  失敗の内訳:", "  ".join(f"{k} {v}" for k, v in c.most_common()) or "なし")
         sp = [r for r in judged if r.get("qtype_used") == "split"]
         rp = [r for r in judged if "||直し||" in (r.get("raw") or "")]
+        rf = [r for r in judged if "||探し直し||" in (r.get("raw") or "")]
         if sp:
             print(f"  分けて答えた質問 {len(sp)} 問（正解 {sum(r['normal'] == 'pass' for r in sp)}）: " + " ".join(r["id"] for r in sp))
         if rp:
             print(f"  形を直した質問 {len(rp)} 問（正解 {sum(r['normal'] == 'pass' for r in rp)}）: " + " ".join(r["id"] for r in rp))
+        if rf:
+            print(f"  拒否を探し直した質問 {len(rf)} 問（正解 {sum(r['normal'] == 'pass' for r in rf)}）: " + " ".join(r["id"] for r in rf))
     orc = [r for r in rows if r.get("oracle") in ("pass", "fail")]
     if orc:
         print("\n【⑤ oracle】根拠チャンク1件だけを渡したときの正解", pct(sum(r["oracle"] == "pass" for r in orc), len(orc)))

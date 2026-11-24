@@ -12,3 +12,4 @@ outputs/*
 !outputs/.gitkeep
 *.sh
 submission/knowledge/
+*.csv

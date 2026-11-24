@@ -146,6 +146,10 @@ def _bigrams(text: str) -> set:
 _KANA2 = re.compile(r"^[ぁ-んー、。？！・「」（）\s]{2}$")   # 「です」「には」のような、どこにでも出る2文字は使わない
 
 
+_ITEM = re.compile(r"[①-⑩]")
+_LIST_HEAD = re.compile(r"次の(内容|事項|項目|とおり|通り)|以下の(内容|事項|項目|とおり|通り)")
+
+
 def narrow_context(hits: list, question: str, keep: int = None, win: int = None) -> str:
     """検索で選んだ資料を文に分け、質問との関連度が高い文（と前後 win 文）だけを残す。
 
@@ -180,6 +184,19 @@ def narrow_context(hits: list, question: str, keep: int = None, win: int = None)
         for j in range(si - win, si + win + 1):
             if 0 <= j < len(docs[di][1]):
                 kept[di].add(j)
+    if S.LIST_EXTEND > 0:                                # 箇条書き（①②③…・「次の内容」）は、残した項目に続く項目も残す
+        for di in list(kept):
+            ss = docs[di][1]
+            for si in sorted(kept[di]):
+                if not (_ITEM.search(ss[si]) or _LIST_HEAD.search(ss[si])):
+                    continue
+                last = si
+                for j in range(si + 1, min(len(ss), si + 1 + S.LIST_EXTEND)):
+                    if _ITEM.search(ss[j]):
+                        last = j
+                    elif j - last > 2:                  # 項目の番号が2文続けて出なければ、一覧は終わり
+                        break
+                    kept[di].add(j)
     lines = []
     for di, (head, ss, chunk) in enumerate(docs):
         if di not in kept:
@@ -246,6 +263,18 @@ def build_messages(question: str, hits: list, qtype: str, max_sent: int = 3, ctx
         msgs += [{"role": "user", "content": u}, {"role": "assistant", "content": a}]
     msgs.append({"role": "user", "content": f"資料:\n{ctx or '（資料なし）'}\n質問: {question}"})
     return msgs
+
+
+def build_extract_messages(question: str, ctx: str) -> list:
+    """計算に必要な数値だけを、資料から「項目: 数値」で書き出させる（計算はこちらでする）。"""
+    sys_ = ("あなたは資料から数値を書き写す係です。計算はせず、質問の計算に必要な数値だけを、"
+            "1行に1つ「項目: 数値（単位）」の形で、資料の表記のまま書き出してください。"
+            "質問の年度・学部に合う数値を選んでください。合計や差などの計算結果、文章は書かないでください。")
+    ex_u = ("資料:\n[1] 【学費の例】 入学金 200,000円、前期授業料 750,000円、後期授業料 750,000円\n"
+            "質問: 入学金と前期授業料を合わせるといくらですか？")
+    ex_a = "入学金: 200,000円\n前期授業料: 750,000円"
+    return [{"role": "system", "content": sys_}, {"role": "user", "content": ex_u}, {"role": "assistant", "content": ex_a},
+            {"role": "user", "content": f"資料:\n{ctx or '（資料なし）'}\n質問: {question}"}]
 
 
 def build_calc_answer_messages(question: str, hits: list, calcs: list, multi: bool, max_sent: int = 3) -> list:

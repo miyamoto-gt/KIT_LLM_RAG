@@ -30,17 +30,22 @@ _REF = re.compile(r"(与えられた)?(資料\s*)?[\[［]\d+[\]］](\s*[とや�
                   r"\s*(の両方|のいずれ)?\s*(を総合すると|をまとめると|の中で|の中に|によると|によれば|には|では|から|に|で|の)?\s*[、,]?")
 # 答えの中身ではない文（出典の話・「資料からは分からない」・「詳しくは〜」の案内）
 _META_SENT = re.compile(r"与えられた資料|記載(があ|されて)|(資料|情報)(に|では|から)は?.{0,12}(記載|書かれ|記述)|"
-                        r"同じ情報が|より詳(細|しい)な情報|詳しくは|確認(して|することを)")
+                        r"同じ情報が|より詳(細|しい)な情報|詳しくは|確認(して|することを)|(正確な|詳細な|詳しい|最新の)[^。]{0,20}確認する必要")
 
 
 def drop_meta(text: str) -> str:
     """出典への言及を外し、中身の無い文（資料の話・案内）を落とす。中身のある文が1つも無ければ元のまま。"""
-    sents = [_LEAD.sub("", _REF.sub("", _LEAD.sub("", x.strip()))).strip()
+    sents = [_LEAD.sub("", _SELF.sub("", _REF.sub("", _LEAD.sub("", x.strip())))).strip()
              for x in re.findall(r"[^。\n]+(?:。|$)", text)]
     sents = [x for x in sents if x.strip("。、 ")]
     keep = [x for x in sents if not _META_SENT.search(x)]
     text = "".join(keep or sents).strip()
     return _LEAD.sub("", text)                 # 前の文を落としたあとに残る「しかし、」「また、」などを外す
+
+
+# 答え方の説明（「質問が〜を尋ねていると解釈し、」「〜を参照すると、」）。資料の番号を外したあとに残るものも
+_SELF = re.compile(r"^[^。]{0,40}(と解釈し(て)?|と考え(て)?|と判断し(て)?)、\s*|^(を|の)?(参照|確認)(すると|したところ)、\s*|"
+                   r"(?<=、)\s*(を|の)?(参照|確認)(すると|したところ)、\s*")
 
 
 # 文頭のつなぎの言葉（前の文が無いと意味が通らない）
@@ -81,7 +86,7 @@ def ensure_calc_values(answer: str, calcs: list) -> str:
     missing = [(e, v) for e, v in calcs if digits(v) not in digits(answer)]
     if not missing:
         return answer
-    add = "、".join(f"{e} = {v}" for e, v in missing)
+    add = "、".join(f"{e} = {v:,}" if isinstance(v, int) else f"{e} = {v}" for e, v in missing)
     return f"{answer}（計算：{add}）" if answer else f"{add}"
 
 
