@@ -40,6 +40,8 @@ def drop_meta(text: str) -> str:
     sents = [x for x in sents if x.strip("。、 ")]
     keep = [x for x in sents if not _META_SENT.search(x)]
     text = "".join(keep or sents).strip()
+    text = re.sub(r"[（(]\s*(資料|出典)?\s*(参照|より|による)?\s*[)）]", "", text)   # 資料番号を外したあとに残る「（参照）」「（）」
+    text = re.sub(r"。。+", "。", text).strip()
     return _LEAD.sub("", text)                 # 前の文を落としたあとに残る「しかし、」「また、」などを外す
 
 

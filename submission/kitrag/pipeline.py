@@ -140,13 +140,23 @@ def extractive(ctx: str, question: str = "") -> str:
         extra = next((sent for sc, sent, has in ranked if has and sc > 0 and sent not in picked), None)
         if extra:
             picked.append(extra)
-    if qtype == "calc":                                  # 計算の質問：いちばんの文の「〇円」「〇人」などを質問の言い方で計算
+    if qtype == "calc" and re.search(r"合計|合わせ|合算|足し|足す|差|何倍|平均|総額|引", question):   # 計算をはっきり求める質問だけ（「割合は何％」は資料の数をそのまま答える）
         from .tools import calc_from_values, parse_number
+        qv = values_in_question(question)                # 質問が数を与えていれば、それで計算して、資料のいちばんの文を添える
+        if qv:
+            qc = calc_from_values(question, qv)
+            if qc:
+                expr, val = qc[0]
+                unit = re.search(r"[0-9]\s*(万円|円|名|人|件|校)", question)
+                unit = unit.group(1) if unit else ("名" if re.search(r"人員|人数|学生数", question) else "")
+                head = f"{expr} = {val:,}{unit}です。" if isinstance(val, int) else f"{expr} = {val}{unit}です。"
+                return (head + picked[0].rstrip("。") + "。")[:400]
         vals = [(m.group(1), parse_number(m.group(2))) for m in
                 re.finditer(r"([^\s、。,，0-9]{1,15}?)\s*([0-9][0-9,，.]*)\s*(?:円|人|名|件|校|%|％)", picked[0])]
         vals = [(n, v) for n, v in vals if v is not None]
         names = [n for n, _ in vals]
-        ok = len(set(names)) == len(names) and not any(re.search(r"年度|入学者|月", n) for n in names)   # 年度違いの同じ項目は足さない
+        ok = len(set(names)) == len(names) and not any(re.search(r"年度|入学者|月", n) for n in names) \
+            and not re.search(r"[0-9]\s*[%％]", picked[0])   # 年度違いの同じ項目・％は足さない
         calcs = calc_from_values(question, vals) if ok and len(vals) >= 2 else []
         if calcs:
             expr, val = calcs[0]
